@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import { PhoneInput } from "../../ui";
+import { Carousel } from "../../components";
 
 const InputStyle = "py-2 bg-transparent border-2 rounded-xl p-2 px-3 transition border-g focus:duration-150 border-slate-700 focus:border-purple-800 focus:bg-slate-900 text-white placeholder-gray-400 outline-none"
 const PStyle = "text-left text-md mt-6 mb-1"
@@ -100,6 +101,12 @@ function RegPage () {
         console.log(user)
     },[user])
 
+    const slides = [
+        'https://mobimg.b-cdn.net/v3/fetch/e6/e6044cb0b978ce39ff76b57402ebd1de.jpeg',
+        'https://mobimg.b-cdn.net/v3/fetch/da/daf8eb568fea522f6701fb9c66378cdc.jpeg?w=1470&r=0.5625',
+        'https://mobimg.b-cdn.net/v3/fetch/74/74739e1770f31cdbfdde99cc0b2925d3.jpeg?w=1470&r=0.5625',
+      ];
+
     return (<>
         <div className="h-full w-5/12 fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl">
             <h1 className="text-6xl font-bold mb-12">Регистрация</h1>
@@ -141,8 +148,8 @@ function RegPage () {
             </div>
             
         </div>
-        <div className="w-7/12">
-            
+        <div className="">
+            {/* <Carousel slides={slides} /> */}
         </div>
     </>)
 }
