@@ -165,6 +165,7 @@ export async function addUserData(userData) {
  * @param nickname: string
  * @return [
  *      {
+ *          id: 1,
  *         name: 'user',
  *        surname: 'user',
  *       urlAvatar: 'https://www.w3schools.com/howto/img_avatar.png',
