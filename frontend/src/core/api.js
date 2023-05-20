@@ -144,8 +144,7 @@ export async function logout(sessionId) {
 }
 
 /**
- * @param userData:
- * {
+ * @param userData {
  *      DOB: '1999-12-31',
  *      name: 'user',
  *      surname: 'user',
@@ -162,6 +161,17 @@ export async function addUserData(userData) {
     }
 }
 
+/**
+ * @param nickname: string
+ * @return [
+ *      {
+ *         name: 'user',
+ *        surname: 'user',
+ *       urlAvatar: 'https://www.w3schools.com/howto/img_avatar.png',
+ *        nickname: 'user',
+ * }
+ * ]
+ * */
 export async function findUserByNickname(nickname) {
     const response = await api.post('/find/userByNickname/' + nickname);
     return response.data;
