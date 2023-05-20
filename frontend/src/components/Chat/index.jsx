@@ -94,7 +94,7 @@ function Chat() {
     }, [chatHistory]);
 
     return (<>
-        <div className='h-full w-full antialiased p-6 text-gray-800 '>
+        <div className='h-full w-full antialiased text-gray-800 '>
             <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl h-full p-4 bg-gradient-to-tr from-[#141E30]/80 to-[#243B55]/80 ">
                 <div className="flex flex-col h-full overflow-x-auto">
                     {/* Сообщения/ошибки */}
@@ -130,11 +130,8 @@ function Chat() {
                             Чат сломался :( </div>)} {/* если connection = false */}
                     </div>
                     <div className="flex flex-row gap-2 w-full p-2" >
-
                         <ChatInput onChange={setCurrentMessage} value={currentMessage} onKeyDown={handleKeyDown}/>
-
                         <SendButton callback={sendMessage} label="Отправить"/>
-                        
                     </div>
                 </div>
             </div>
