@@ -96,7 +96,7 @@ export async function sendEmailCode(mail) {
      *             done
      */
 export async function confirmRegistration(login, mail, password, code) {
-    const response = await api.post('/authorization/registration/confirmRegistration', {
+    const response = await api.post('/authorization/registration/mailConfirmation', {
         login,
         mail,
         password,
