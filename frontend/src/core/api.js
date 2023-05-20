@@ -58,28 +58,49 @@ export function subscribeForEvent(stompClient, callback) {
     stompClient.subscribe('/topic/events', callback);
 }
 
-export async function login(username, password) {
-    const response = await api.post('/login', {username, password});
-    token = response.data.token;
+/**
+     * @param user на вход:
+     *             String login,
+     *             String mail
+     * @return status:
+     *             user already exists,
+     *             mail already exists,
+     *             done
+     */
+export async function createRegistrationCode(login, mail) {
+    const response = await api.post('/authorization/registration/createRegistrationCode', {
+        login,
+        mail,
+    });
     return response.data;
 }
 
-export async function register(username, password) {
-    const response = await api.post('/register', {username, password});
-    return response.data;
+    /**
+     * @param mail:
+     *            String mail
+     */
+export async function sendEmailCode(mail) {
+    await api.post('/authorization/registration/sendCode', {
+        mail,
+    });
 }
 
-export async function getChatHistory() {
-    const response = await api.get('/history', {headers: {Authorization: token}});
-    return response.data;
-}
-
-export async function sendMessage(message) {
-    const response = await api.post('/message', {message}, {headers: {Authorization: token}});
-    return response.data;
-}
-
-export async function getOnlineUsers() {
-    const response = await api.get('/online', {headers: {Authorization: token}});
+/**
+     * @param user на вход:
+     *             String login,
+     *             String mail
+     *             String password
+     *             String code;
+     * @return status:
+     *             denied
+     *             done
+     */
+export async function confirmRegistration(login, mail, password, code) {
+    const response = await api.post('/authorization/registration/confirmRegistration', {
+        login,
+        mail,
+        password,
+        code,
+    });
     return response.data;
 }
