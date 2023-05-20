@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        main: '#1f2937',
+        main: '#0f172a',
         warning: '',
         primary: '#38bdf8',
         active: '#374151',

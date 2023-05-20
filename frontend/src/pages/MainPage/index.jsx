@@ -6,7 +6,7 @@ function MainPage() {
     return (<>
         <div className='h-screen w-full flex flex-row'>
 
-            <div className='h-full w-6/12 '>
+            <div className='h-full w-6/12 flex flex-col justify-between'>
                 <div><ChatList /></div>
                 <ChatNav />
             </div>
