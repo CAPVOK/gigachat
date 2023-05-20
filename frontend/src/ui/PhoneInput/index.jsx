@@ -1,5 +1,5 @@
 import React from "react";
-
+const InputStyle = "py-2 bg-transparent border-4 rounded-xl p-2 px-3 transition border-g focus:duration-150 border-slate-700 focus:border-purple-800 focus:bg-slate-900 text-white placeholder-gray-400 outline-none"
  export const PhoneInput = (props)=>{
 
     const getInputNumbersValue = function(input){
@@ -44,6 +44,6 @@ import React from "react";
     }
 
     return(
-        <input className="my-1 bg-white/20 rounded px-3 py-1" onChange={onPhoneInput}/>
+        <input className={InputStyle} onChange={onPhoneInput}/>
     );
  }
