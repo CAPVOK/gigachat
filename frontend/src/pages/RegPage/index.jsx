@@ -101,7 +101,7 @@ function RegPage () {
         <div className="h-full w-full fixed top-0 left-0 flex items-center justify-center flex-col text-white">
             <h1 className="mb-12">Войти</h1>
             <input type="text" id="name" name="name" placeholder="Name" 
-               class="py-2 bg-slate-600 border-b-2 border-gray-400 focus:border-purple-800 
+               className="py-2 bg-slate-600 border-b-2 border-gray-400 focus:border-purple-800 
                       text-white placeholder-gray-400
                       outline-none"></input>
             {(emptyLogin || emptyPassword || emptySurname || emptyName || emptyMail || emptyPhone)&&<span>{warn}</span>}
