@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Routes } from 'react-router-dom'
 
-import { MainPage, NotFoundPage } from './pages';
+import { MainPage, NotFoundPage, ProfilePage, AuthPage } from './pages';
 
 function App() {
 
@@ -9,7 +9,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path='*' element={<NotFoundPage/>} />
+        <Route path="auth" element={<AuthPage />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   )
