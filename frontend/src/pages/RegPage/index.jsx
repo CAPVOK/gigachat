@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { PhoneInput } from "../../ui";
 import { Carousel } from "../../components";
+import { confirmRegistration, createRegistrationCode, login, sendEmailCode } from "../../core/api";
 
 const InputStyle = "py-2 bg-transparent border-2 rounded-xl p-2 px-3 transition border-g focus:duration-150 border-slate-700 focus:border-purple-800 focus:bg-slate-900 text-white placeholder-gray-400 outline-none"
 const PStyle = "text-left text-md mt-6 mb-1"
 
 function RegPage () {
 
+    let navigate = useNavigate();
     const [user, setUser] = useState({
         login: "",
         password: "",
         mail: "",
         surname: "",
         name: "",
+        date: "",
+        nick: "",
         phone: ""
     });
 
@@ -33,7 +37,13 @@ function RegPage () {
     const [emptyName, setEmptyName] = useState(true);
     const [emptyMail, setEmptyMail] = useState(true);
     const [emptyPhone, setEmptyPhone] = useState(true);
+    const [emptyDate, setEmptyDate] = useState(true);
+    const [emptyNick, setEmptyNick] = useState(true);
     const [warn, setWarn] = useState("");
+    const [check, setCheck] = useState(false);
+    const [cod, setCod] = useState("");
+    const [extra, setExtra] = useState(false);
+    const [error, setError] = useState(false);
 
     const isEmptyLogin = () => {
         (user.login === "") ? setEmptyLogin(true) : setEmptyLogin(false) 
@@ -59,6 +69,14 @@ function RegPage () {
         (user.phone === "") ? setEmptyPhone(true) : setEmptyPhone(false) 
     }
 
+    const isEmptyDate = () => {
+        (user.date === "") ? setEmptyDate(true) : setEmptyDate(false) 
+    }
+
+    const isEmptyNick = () => {
+        (user.nick === "") ? setEmptyNick(true) : setEmptyNick(false) 
+    }
+
     const handleSubmit = (e) => {
         
         console.log(emptyLogin);
@@ -71,24 +89,32 @@ function RegPage () {
             setWarn("Поле пароля не должно быть пустым");
             return;
         } 
-        if(emptySurname){   
-            setWarn("Поле фамилии не должно быть пустым");
-            return;
-        } 
-        if(emptyName){   
-            setWarn("Поле имени не должно быть пустым");
-            return;
-        } 
         if(emptyMail){   
             setWarn("Поле почты не должно быть пустым");
             return;
         } 
-        if(emptyPhone){   
-            setWarn("Поле телефона не должно быть пустым");
-            return;
-        } else {
-            alert("Успешный вход")
+        else {
+            console.log(user);
+            createRegistrationCode(user.login, user.mail).then((data) => {
+                console.log(data);
+                if(data.status == "user already exists"){
+                    setError(true);
+                    setWarn("Логин уже занят");
+                    return;
+                }
+                if(data.status == "mail already exists"){
+                    setError(true);
+                    setWarn("Почта уже зарегистрована");
+                    return;
+                }
+                if(data.status == "done"){
+                    sendEmailCode(user.mail);
+                    setCheck(true);
+                    setError(false);
+                }
+            } )    
         }
+        
     }
     
     useEffect(() => {
@@ -98,8 +124,47 @@ function RegPage () {
         isEmptyName();
         isEmptyMail();
         isEmptyPhone();
+        isEmptyDate();
+        isEmptyNick();
         console.log(user)
     },[user])
+
+    const handleCheck = (e) => {
+        confirmRegistration(user.login, user.mail, user.password, cod).then((data) => {
+            if(data == "denied"){
+                setError(true);
+                setWarn("Неправильный код подтверждения");
+                return;
+            }
+            else{
+                login(user.login, user.password).then((data) => {
+                    console.log(data);
+                })
+                setExtra(!extra);
+            }
+        })
+    }
+
+    const handleExtra = (e) => {
+        if(emptySurname){   
+            setWarn("Поле фамилии не должно быть пустым");
+            return;
+        } 
+        if(emptyName){   
+            setWarn("Поле имени не должно быть пустым");
+            return;
+        }
+        if(emptyDate){   
+            setWarn("Поле даты рождения не должно быть пустым");
+            return;
+        }
+        if(emptyNick){   
+            setWarn("Поле никнейма не должно быть пустым");
+            return;
+        } else {
+            
+        }
+    }
 
     const slides = [
         'https://mobimg.b-cdn.net/v3/fetch/e6/e6044cb0b978ce39ff76b57402ebd1de.jpeg',
@@ -109,44 +174,87 @@ function RegPage () {
 
     return (<>
         <div className="h-full w-5/12 fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl">
-            <h1 className="text-6xl font-bold mb-12">Регистрация</h1>
-            {(emptyLogin || emptyPassword || emptySurname || emptyName || emptyMail || emptyPhone)&&<span>{warn}</span>}
-            <div >
-                <p className={PStyle}>Login</p>
-                <input name = "login" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
-            </div>
-            <div>
-                <p className={PStyle}>Password</p>
-                <input name = "password" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
-            </div>
-            {/* <div>
-               <p className={PStyle}>Фамилия</p>
-                <input name = "surname" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/> 
-            </div>
+            <h1 className="text-6xl font-bold mb-10">Регистрация</h1>
             
-            <div>
-                <p className={PStyle}>Имя</p>
-                <input name = "name" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
-            </div> */}
-            <div>
-                <p className={PStyle}>Почта</p>
-                <input type="email" name = "mail" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+            <div className="flex p-6 space-x-4 justify-items-start">
+                <span className={" w-[50px] h-[15px] rounded-md bg-purple-800"}/>
+                <span className={((!extra)?(" bg-slate-800"):(" bg-purple-800")) + " w-[50px] h-[15px] rounded-md border-purple-800 border-2"}/>
             </div>
-            {/* <div>
-                <p className={PStyle}>Телефон</p>
-                <PhoneInput onChange={(e)=>setUser({...user, phone: e})} name = "phone"/>
-            </div> */}
-            
-            
-            <button
-            onClick={handleSubmit}
-            className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl p-4 font-bold mt-20"
-            >Зарегистрироваться</button>
-            <div className="flex space-x-2 pt-4 text-2xl">
-                <p className=" text-gray-500 font-semibold">Есть аккаунт?</p>
-                <Link to="/auth">Войти</Link>
+            <div className={((extra)?" hidden":"")+ " flex flex-col items-start"}>
+                <p>Основная регистрация</p>
+                {(emptyLogin || emptyPassword || emptyMail || error)&&<span>{warn}</span>}
+                <div>
+                    <p className={PStyle}>Почта</p>
+                    <input type="email" name = "mail" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+                </div>
+
+                <div >
+                    <p className={PStyle}>Login</p>
+                    <input name = "login" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+                </div>
+                <div>
+                    <p className={PStyle}>Password</p>
+                    <input name = "password" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+                </div>
+
+                {check && 
+                    <div className="flex flex-col mt-2">
+                        <p className={PStyle}>Код подтверждения</p>
+                        <input className={InputStyle} onChange={(e) => setCod(e.target.value)}/>
+                        <button 
+                        className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl p-4 font-bold mt-20"
+                        onClick={handleCheck}
+                        >Подтвердить</button>
+                    </div>
+                }
+                
+                {!check && <button
+                    onClick={handleSubmit}
+                    className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl p-4 font-bold mt-20"
+                    >Зарегистрироваться</button>
+                }
+                <div className="flex space-x-2 pt-4 text-2xl">
+                    <p className=" text-gray-500 font-semibold">Есть аккаунт?</p>
+                    <Link to="/auth">Войти</Link>
+                </div>
+
             </div>
-            
+
+            <div className={((!extra)?" hidden":"")+ " flex flex-col items-start"}>
+                <p>Дополнительная регистрация</p>
+                {( emptySurname || emptyName || emptyPhone || error)&&<span>{warn}</span>}
+                <div>
+                    <p className={PStyle + " mt-2"}>Фамилия</p>
+                    <input name = "surname" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/> 
+                </div>
+                
+                <div>
+                    <p className={PStyle + " mt-2"}>Имя</p>
+                    <input name = "name" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+                </div>
+                
+                <div>
+                    <p className={PStyle + " mt-2"}>Дата рождения</p>
+                    <input type="date" name = "date" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+                </div>
+
+                <div>
+                    <p className={PStyle + " mt-2"}>Никнейм</p>
+                    <input name = "nick" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+                </div>
+
+                <div>
+                    <p className={PStyle + " mt-2"}>Телефон</p>
+                    <PhoneInput onChange={(e)=>setUser({...user, phone: e})} name = "phone"/>
+                </div> 
+
+                <div className="flex space-x-3 mt-6 place-items-center">
+                    <Link to="/">Пропустить</Link>
+                    <button onClick={handleExtra} 
+                    className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl p-4 font-bold">Добавить</button>
+                </div>
+            </div>
+
         </div>
         <div className="">
             {/* <Carousel slides={slides} /> */}
