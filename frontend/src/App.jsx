@@ -1,13 +1,17 @@
-import { getHi } from "./core/api"
+import { BrowserRouter } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom'
+
+import { MainPage, NotFoundPage } from './pages';
 
 function App() {
 
   return (
-    <>
-    <div className="text-3xl">
-      {getHi().then((res)=>console.log(res)).catch((err)=>console.log(err))}
-    </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path='*' element={<NotFoundPage/>} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
