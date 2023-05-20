@@ -138,6 +138,7 @@ export async function logout(sessionId) {
     });
     if (response.data.status === 'done') {
         localStorage.removeItem('sessionId');
+        localStorage.removeItem('login');
     }
     return response.data;
 }
