@@ -4,5 +4,6 @@ import { BackButton } from "./BackButton";
 import { Search } from "./Search";
 import { SendButton } from "./SendButton";
 import { ChatInput } from "./ChatInput";
+import { AddChatButton } from "./AddChatButton";
 
-export {PhoneInput, SubmitButton, BackButton, Search, SendButton, ChatInput, };
+export {PhoneInput, SubmitButton, BackButton, Search, SendButton, ChatInput, AddChatButton, };
