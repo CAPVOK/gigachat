@@ -2,8 +2,6 @@ import axios from 'axios';
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 
-export let token;
-
 const URL = 'http://62.217.177.150:8082/';
 
 const api = axios.create({
@@ -102,5 +100,43 @@ export async function confirmRegistration(login, mail, password, code) {
         password,
         code,
     });
+    return response.data;
+}
+
+/**
+     * @param user на вход:
+     *             String login,
+     *             String password
+     * @return status:
+     *              user does not exist
+     *              wrong password
+     *              done
+     *         sessionId:
+     *              String {sessionId}
+     */
+export async function login(login, password) {
+    const response = await api.post('/authorization/login', {
+        login,
+        password,
+    });
+    if (response.data.status === 'done') {
+        localStorage.setItem('sessionId', response.data.sessionId);
+    }
+    return response.data;
+}
+
+/**
+     * @param sessionId на вход:
+     *                  String sessionId
+     * @return status:
+     *                  done
+     */
+export async function logout(sessionId) {
+    const response = await api.post('/authorization/logout', {
+        sessionId,
+    });
+    if (response.data.status === 'done') {
+        localStorage.removeItem('sessionId');
+    }
     return response.data;
 }
