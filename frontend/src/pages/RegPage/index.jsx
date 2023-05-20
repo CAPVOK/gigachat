@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import { PhoneInput } from "../../ui";
 
+const InputStyle = "py-2 bg-transparent border-2 rounded-xl p-2 px-3 transition border-g focus:duration-150 border-slate-700 focus:border-purple-800 focus:bg-slate-900 text-white placeholder-gray-400 outline-none"
+const PStyle = "text-left text-md mt-6 mb-1"
+
 function RegPage () {
 
     const [user, setUser] = useState({
@@ -98,31 +101,48 @@ function RegPage () {
     },[user])
 
     return (<>
-        <div className="h-full w-full fixed top-0 left-0 flex items-center justify-center flex-col text-white">
-            <h1 className="mb-12">Войти</h1>
-            <input type="text" id="name" name="name" placeholder="Name" 
-               className="py-2 bg-slate-600 border-b-2 border-gray-400 focus:border-purple-800 
-                      text-white placeholder-gray-400
-                      outline-none"></input>
+        <div className="h-full w-5/12 fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl">
+            <h1 className="text-6xl font-bold mb-12">Регистрация</h1>
             {(emptyLogin || emptyPassword || emptySurname || emptyName || emptyMail || emptyPhone)&&<span>{warn}</span>}
-            <p>Login</p>
-            <input name = "login" className=" text-black" onChange={(e) => {handleInputChange(e)}}/>
-            <p>Password</p>
-            <input name = "password" className=" text-black" onChange={(e) => {handleInputChange(e)}}/>
-            <p>Фамилия</p>
-            <input name = "surname" className=" text-black" onChange={(e) => {handleInputChange(e)}}/>
-            <p>Имя</p>
-            <input name = "name" className=" text-black" onChange={(e) => {handleInputChange(e)}}/>
-            <p>Почта</p>
-            <input type="email" name = "mail" className=" text-black" onChange={(e) => {handleInputChange(e)}}/>
-            <p>Телефон</p>
-            <PhoneInput onChange={(e)=>setUser({...user, phone: e})} name = "phone"/>
-            <input name = "phone" className=" text-black" onChange={(e) => {handleInputChange(e)}}/>
+            <div >
+                <p className={PStyle}>Login</p>
+                <input name = "login" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+            </div>
+            <div>
+                <p className={PStyle}>Password</p>
+                <input name = "password" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+            </div>
+            {/* <div>
+               <p className={PStyle}>Фамилия</p>
+                <input name = "surname" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/> 
+            </div>
+            
+            <div>
+                <p className={PStyle}>Имя</p>
+                <input name = "name" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+            </div> */}
+            <div>
+                <p className={PStyle}>Почта</p>
+                <input type="email" name = "mail" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+            </div>
+            {/* <div>
+                <p className={PStyle}>Телефон</p>
+                <PhoneInput onChange={(e)=>setUser({...user, phone: e})} name = "phone"/>
+            </div> */}
+            
+            
             <button
             onClick={handleSubmit}
+            className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl p-4 font-bold mt-20"
             >Зарегистрироваться</button>
-            <p>Есть аккаунт?</p>
-            <Link to="/auth">Войти</Link>
+            <div className="flex space-x-2 pt-4 text-2xl">
+                <p className=" text-gray-500 font-semibold">Есть аккаунт?</p>
+                <Link to="/auth">Войти</Link>
+            </div>
+            
+        </div>
+        <div className="w-7/12">
+            
         </div>
     </>)
 }
