@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {over} from 'stompjs';
+import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 
 const URL = 'http://62.217.177.150:8082/';
@@ -73,10 +73,10 @@ export async function createRegistrationCode(login, mail) {
     return response.data;
 }
 
-    /**
-     * @param mail:
-     *            String mail
-     */
+/**
+ * @param mail:
+ *            String mail
+ */
 export async function sendEmailCode(mail) {
     await api.post('/authorization/registration/sendCode', {
         mail,
@@ -121,6 +121,7 @@ export async function login(login, password) {
     });
     if (response.data.status === 'done') {
         localStorage.setItem('sessionId', response.data.sessionId);
+        localStorage.setItem('login', login);
     }
     return response.data;
 }
@@ -138,5 +139,29 @@ export async function logout(sessionId) {
     if (response.data.status === 'done') {
         localStorage.removeItem('sessionId');
     }
+    return response.data;
+}
+
+/**
+ * @param userData:
+ * {
+ *      DOB: '1999-12-31',
+ *      name: 'user',
+ *      surname: 'user',
+ *      number: '+7(999)999-99-99',
+ *      gender: 'male'
+ * }
+ */
+export async function addUserData(userData) {
+    const sessionId = localStorage.getItem('sessionId');
+    if (sessionId) {
+        await api.post('/profile/addUserData/' + sessionId, {
+            userData,
+        });
+    }
+}
+
+export async function findUserByNickname(nickname) {
+    const response = await api.post('/find/userByNickname/' + nickname);
     return response.data;
 }
