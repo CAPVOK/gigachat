@@ -9,6 +9,7 @@ export default {
       colors: {
         main: '#1f2937',
         warning: '',
+        primary: '#38bdf8',
         active: '#374151',
       },
     },

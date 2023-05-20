@@ -1,5 +1,3 @@
-import { isAction } from "@reduxjs/toolkit";
-import "./index.css"
 
 function ChatRoom({ user, active, callback }) {
 
@@ -13,7 +11,7 @@ function ChatRoom({ user, active, callback }) {
                 </div>
                 <div className="w-full flex flex-row justify-between items-center">
                     <div className="overflow-hidden text-gray-300">Я съел деда</div>
-                    {user.newMessage && <div className="w-6 h-6 flex justify-center items-center rounded-full aspect-square text-white text-sm bg-blue-400">8</div>}
+                    {user.newMessage && <div className="w-6 h-6 flex justify-center items-center rounded-full aspect-square text-white text-sm bg-primary">8</div>}
                 </div>
             </div>
         </div>
