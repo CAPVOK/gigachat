@@ -146,7 +146,7 @@ function RegPage () {
             else{
                 login(user.login, user.password).then((data) => {
                     console.log(data);
-                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("sessionId", data.sessionId);
                 })
                 setExtra(!extra);
             }
