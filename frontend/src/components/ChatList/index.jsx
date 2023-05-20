@@ -36,7 +36,7 @@ function ChatList() {
     return (<>
         <div className="w-full h-full p-4 flex flex-col gap-y-4">
             <div className="px-4">
-                <Search callback={setSearchText} value={searchText} onClick={()=>setActive(0)}/>
+                <Search callback={setSearchText} value={searchText} /* onClick={()=>setActive(0)} *//>
             </div>
             {users && users.map((user) =>
                 <ChatRoom key={user.id} callback={handleClick} active={active} user={user} />
