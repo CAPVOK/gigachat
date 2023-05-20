@@ -1,6 +1,6 @@
 import React from "react";
 
- const PhoneInput = (props)=>{
+ export const PhoneInput = (props)=>{
 
     const getInputNumbersValue = function(input){
         return input.value.replace(/\D/g, "");
