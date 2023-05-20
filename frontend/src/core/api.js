@@ -54,6 +54,10 @@ export function disconnect(stompClient) {
     stompClient.disconnect();
 }
 
+export function subscribeForEvent(stompClient, callback) {
+    stompClient.subscribe('/topic/events', callback);
+}
+
 export async function login(username, password) {
     const response = await api.post('/login', {username, password});
     token = response.data.token;
