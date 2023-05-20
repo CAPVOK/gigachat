@@ -173,8 +173,8 @@ function RegPage () {
       ];
 
     return (<>
-        <div className="h-full w-5/12 fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl">
-            <h1 className="text-6xl font-bold mb-10">Регистрация</h1>
+        <div className="h-full w-full lg:w-5/12 fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl">
+            <h1 className="text-5xl sm:text-6xl font-bold mb-10">Регистрация</h1>
             
             <div className="flex p-6 space-x-4 justify-items-start">
                 <span className={" w-[50px] h-[15px] rounded-md bg-purple-800"}/>
@@ -222,7 +222,7 @@ function RegPage () {
 
             <div className={((!extra)?" hidden":"")+ " flex flex-col items-start"}>
                 <p>Дополнительная регистрация</p>
-                {( emptySurname || emptyName || emptyPhone || error)&&<span>{warn}</span>}
+                {( emptySurname || emptyName || emptyPhone || error)&&<span className=" text-sm text-center text-red-600">{warn}</span>}
                 <div>
                     <p className={PStyle + " mt-2"}>Фамилия</p>
                     <input name = "surname" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/> 

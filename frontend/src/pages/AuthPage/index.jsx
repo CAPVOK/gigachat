@@ -76,9 +76,9 @@ function AuthPage () {
     },[user])
 
     return (<>
-        <div className="h-full w-5/12 fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl">
+        <div className="h-full w-full lg:w-5/12 fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl">
             <h1 className="text-6xl font-bold mb-12">Войти</h1>
-            {(emptyLogin || emptyPassword || error)&&<span>{warn}</span>}
+            {(emptyLogin || emptyPassword || error)&&<span className=" text-sm text-center text-red-600">{warn}</span>}
             <div>
                 <p className={PStyle}>Login</p>
                 <input name = "login" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
@@ -92,7 +92,7 @@ function AuthPage () {
             onClick={handleSubmit}
             className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl px-10 py-3 font-bold mt-20"
             >Войти</button>
-            <div className="flex space-x-2 pt-4 text-2xl">
+            <div className="flex flex-col lg:flex-row lg:space-x-2 pt-4 text-2xl">
                <p className=" text-gray-500 font-semibold">Нет аккаунта?</p>
                 <Link to="/reg">Зарегистрироваться</Link> 
             </div>
