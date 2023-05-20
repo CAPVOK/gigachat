@@ -1,10 +1,11 @@
+import { getHi } from "./core/api"
 
 function App() {
 
   return (
     <>
     <div className="text-3xl">
-      ijselfj
+      {getHi().then((res)=>console.log(res)).catch((err)=>console.log(err))}
     </div>
     </>
   )
