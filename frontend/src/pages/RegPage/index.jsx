@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
-import { PhoneInput } from "../../ui";
+import { GenderSelect, PhoneInput } from "../../ui";
 import { Carousel } from "../../components";
-import { confirmRegistration, createRegistrationCode, login, sendEmailCode } from "../../core/api";
+import { addUserData, confirmRegistration, createRegistrationCode, login, sendEmailCode } from "../../core/api";
 
 const InputStyle = "py-2 bg-transparent border-2 rounded-xl p-2 px-3 transition border-g focus:duration-150 border-slate-700 focus:border-purple-800 focus:bg-slate-900 text-white placeholder-gray-400 outline-none"
 const PStyle = "text-left text-md mt-6 mb-1"
@@ -18,7 +18,8 @@ function RegPage () {
         name: "",
         date: "",
         nick: "",
-        phone: ""
+        phone: "",
+        gender: "male"
     });
 
     const handleInputChange = (event) => {
@@ -39,6 +40,7 @@ function RegPage () {
     const [emptyPhone, setEmptyPhone] = useState(true);
     const [emptyDate, setEmptyDate] = useState(true);
     const [emptyNick, setEmptyNick] = useState(true);
+    const [emptyGender, setEmptyGender] = useState(true);
     const [warn, setWarn] = useState("");
     const [check, setCheck] = useState(false);
     const [cod, setCod] = useState("");
@@ -75,6 +77,10 @@ function RegPage () {
 
     const isEmptyNick = () => {
         (user.nick === "") ? setEmptyNick(true) : setEmptyNick(false) 
+    }
+
+    const isEmptyGender = () => {
+        (user.gender === "") ? setEmptyGender(true) : setEmptyGender(false) 
     }
 
     const handleSubmit = (e) => {
@@ -126,6 +132,7 @@ function RegPage () {
         isEmptyPhone();
         isEmptyDate();
         isEmptyNick();
+        isEmptyGender();
         console.log(user)
     },[user])
 
@@ -139,6 +146,7 @@ function RegPage () {
             else{
                 login(user.login, user.password).then((data) => {
                     console.log(data);
+                    localStorage.setItem("token", data.token);
                 })
                 setExtra(!extra);
             }
@@ -162,6 +170,14 @@ function RegPage () {
             setWarn("Поле никнейма не должно быть пустым");
             return;
         } else {
+            addUserData({
+                DOB: user.date,
+                name: user.name, 
+                surname: user.surname,
+                number: user.phone,
+                gender: user.gender,
+                nickname: user.nick
+            }).then(navigate("/"))
             
         }
     }
@@ -236,6 +252,11 @@ function RegPage () {
                 <div>
                     <p className={PStyle + " mt-2"}>Дата рождения</p>
                     <input type="date" name = "date" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
+                </div>
+
+                <div>
+                    <p className={PStyle + " mt-2"}>Пол</p>
+                    <GenderSelect onChange={(e)=>setUser({...user, gender: e})}/>
                 </div>
 
                 <div>
