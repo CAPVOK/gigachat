@@ -4,6 +4,7 @@ import { Search, AddChatButton } from "../../ui";
 import { ChatRoom, AddChat, Modal, Invite } from "../../components";
 
 import "./index.css"
+import { getInvites } from "../../core/api";
 
 function ChatList() {
     const [active, setActive] = useState(0); // активный чат
@@ -29,10 +30,10 @@ function ChatList() {
         { id: 12, name: "Rodion", time: '15:30', newMessage: true },
     ];
 
-    const Invites = [
+    const [invites, setInvites] = useState([
         { id: 1, name: 'Super Chat', nickname: 'Степан' },
         { id: 2, name: 'Brawl Start 7A', nickname: 'El Primo' },
-    ]
+    ])
 
     function handleClickChat(user) {
         setActive(user.id)
@@ -43,11 +44,11 @@ function ChatList() {
     }
 
     function handleSubmitInvite(invite) {
-
+        console.log(invite);
     }
 
     function handleDiscardInvite(invite) {
-
+        console.log(invite);
     }
 
     function sortUsersByTime(users) {
@@ -77,6 +78,20 @@ function ChatList() {
             }
         }
         document.addEventListener('click', handleClickOutside);
+
+        // получить инвайты
+        getInvites().then(unparsed_invites => {
+            console.log(unparsed_invites);
+            setInvites(unparsed_invites.map(unparsed_invite => {
+                return {
+                    id: unparsed_invite.id,
+                    name: unparsed_invite.chatId.name,
+                    nickname: unparsed_invite.inviterNickname,
+                }
+            }))
+        })
+
+
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
@@ -97,7 +112,7 @@ function ChatList() {
                 <div className={`${isActiveSearch && "hidden"}`}><AddChatButton callback={() => setIsModalShow(true)} /></div>
             </div>
 
-            {Invites.length > 0 && Invites.map((invite) =>
+            {invites.length > 0 && invites.map((invite) =>
                 <Invite key={invite.id} invite={invite} onSubmit={() => handleSubmitInvite(invite)} onDiscard={() => handleDiscardInvite(invite)} />
             )}
 
