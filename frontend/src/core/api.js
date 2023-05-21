@@ -195,3 +195,25 @@ export async function addNewChat(data) {
     const response = await api.post('/create/chat/by/' + sessionId, {...data});
     return response.data;
 }
+
+/**
+     * @param userId - кого пригласить
+     * @param chatId - куда пригласить
+     * @param session - String sessionId (кто приглашает)
+     * @return
+     */
+export async function invite(userId, chatId) {
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
+    const response = await api.post(`/invite/${userId}/toChat/${chatId}`, {
+        session: sessionId
+    });
+    return response.status == 200;
+}
+
+export async function accept(chatId) {
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
+    const response = await api.post(`/invite/${sessionId}/accept/${chatId}`)
+    return response.status == 200;
+}
