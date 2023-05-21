@@ -31,10 +31,7 @@ function ChatList() {
         { id: 12, name: "Rodion", time: '15:30', newMessage: true },
     ];
 
-    const [invites, setInvites] = useState([
-        { id: 1, name: 'Super Chat', nickname: 'Степан' },
-        { id: 2, name: 'Brawl Start 7A', nickname: 'El Primo' },
-    ])
+    const [invites, setInvites] = useState([])
 
     function handleClickChat(user) {
         setActive(user.id);
