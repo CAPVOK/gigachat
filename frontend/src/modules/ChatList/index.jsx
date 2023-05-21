@@ -1,17 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+
 import { Search, AddChatButton } from "../../ui";
 import { ChatRoom, AddChat, Modal, Invite } from "../../components";
-import "./index.css"
 import { accept, decline, getInvites } from "../../core/api";
-import { saveid } from "../../core/slice";
 
 function ChatList({activeChat, setActiveChat}) {
-    const [active, setActive] = useState(0); // активный чат
     const [searchText, setSearchText] = useState(''); // текст поиска 
     const [users, setUsers] = useState([]); // сорт чаты
     const [isActiveSearch, setIsActiveSearch] = useState(false); // тыкнули ли мы на поиск
     const [isModalShow, setIsModalShow] = useState(false); // модалка 
+    const [invites, setInvites] = useState([])
 
     const isActiveSearchRef = useRef(false);
 
@@ -30,7 +28,6 @@ function ChatList({activeChat, setActiveChat}) {
         { id: 12, name: "Rodion", time: '15:30', newMessage: true },
     ];
 
-    const [invites, setInvites] = useState([])
 
     function handleClickChat(user) {
         setActiveChat(user.id);
@@ -77,7 +74,7 @@ function ChatList({activeChat, setActiveChat}) {
         )
     }
 
-    /* клик вне search*/
+  
     useEffect(() => {
         function handleClickOutside(event) {
             if (isActiveSearchRef.current && !event.target.closest('#search-container')) {
@@ -97,6 +94,8 @@ function ChatList({activeChat, setActiveChat}) {
                 }
             }))
         })
+
+        
 
         return () => {
             document.removeEventListener('click', handleClickOutside);

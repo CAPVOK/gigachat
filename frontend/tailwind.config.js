@@ -8,9 +8,7 @@ export default {
     extend: {
       colors: {
         main: '#0f172a',
-        warning: '',
         noActive: '#1e293b',
-        primary: '#c026d3',
         start: '#c026d3',
         end: '#ec4899',
         active: '#475569',
