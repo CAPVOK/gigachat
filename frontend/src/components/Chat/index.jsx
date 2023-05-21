@@ -5,7 +5,7 @@ import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 /* import { api } from "../../core/api"; */
 
-import { SendButton, ChatInput, } from "../../ui";
+import { SendButton, ChatInput, BackButton, AddUserButton } from "../../ui";
 import { Modal } from "../Modal";
 import { AddUser } from "../AddUser";
 
@@ -51,7 +51,7 @@ function Chat({ activeChat, setActiveChat }) {
         )
     }
 
-    const sendMessage = () => { // угадай по названию 
+    const sendMessage = () => { // угадай по названию
         if (stompClient.current !== null) {
             if (currentMessage.trim() !== "") {
                 const newDate = new Date();
@@ -119,13 +119,12 @@ function Chat({ activeChat, setActiveChat }) {
 
                 {/* header */}
                 <div className="w-full h-12 px-2 flex flex-row justify-between text-white items-center ">
-                    <div className="text-2xl">Название</div>
+                    <div className="flex flex-row items-center gap-2">
+                        <BackButton callback={()=>setActiveChat(-1)}/>
+                        <div className="text-3xl">Название</div>
+                    </div>
                     <div className="flex flex-row">
-                        <div onClick={() => setIsModalShow(true)} className="h-10 aspect-square rounded-full flex flex-row justify-center items-center transition ease-in-out bg-start hover:bg-end">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
-                            </svg>
-                        </div>
+                        <AddUserButton callback={()=>setIsModalShow(true)}/>
                     </div>
                 </div>
 
