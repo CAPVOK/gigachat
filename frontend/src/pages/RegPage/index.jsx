@@ -250,11 +250,6 @@ function RegPage () {
                     <p className={PStyle + " mt-1"}>Имя</p>
                     <input name = "name" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
                 </div>
-                
-                <div>
-                    <p className={PStyle + " mt-1"}>Дата рождения</p>
-                    <input type="date" name = "date" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
-                </div>
 
                 <div>
                     <p className={PStyle + " mt-1"}>Пол</p>
