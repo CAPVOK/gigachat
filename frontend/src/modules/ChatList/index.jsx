@@ -4,7 +4,7 @@ import { Search, AddChatButton } from "../../ui";
 import { ChatRoom, AddChat, Modal, Invite } from "../../components";
 
 import "./index.css"
-import { getInvites } from "../../core/api";
+import { accept, decline, getInvites } from "../../core/api";
 
 function ChatList() {
     const [active, setActive] = useState(0); // активный чат
@@ -44,11 +44,21 @@ function ChatList() {
     }
 
     function handleSubmitInvite(invite) {
-        console.log(invite);
+        accept(invite.id).then(result => {
+            if (!result) return;
+            const index = invites.indexOf(invite)
+            invites.splice(index, 1);
+            setInvites(invites);
+        });
     }
 
     function handleDiscardInvite(invite) {
-        console.log(invite);
+        decline(invite.id).then(result => {
+            if (!result) return;
+            const index = invites.indexOf(invite)
+            invites.splice(index, 1);
+            setInvites(invites);
+        });
     }
 
     function sortUsersByTime(users) {
@@ -84,7 +94,7 @@ function ChatList() {
             console.log(unparsed_invites);
             setInvites(unparsed_invites.map(unparsed_invite => {
                 return {
-                    id: unparsed_invite.id,
+                    id: unparsed_invite.chatId.id,
                     name: unparsed_invite.chatId.name,
                     nickname: unparsed_invite.inviterNickname,
                 }
