@@ -200,10 +200,10 @@ export async function findUserByNickname(nickname) {
 }
 
 
-export async function addNewChat(data) {
+export async function addNewChat(data, userIds) {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.post('/create/chat/by/' + encodeURI(sessionId), {...data});
+    const response = await api.post('/create/chat/by/' + encodeURI(sessionId), {...data, userIds});
     return response.data;
 }
 
