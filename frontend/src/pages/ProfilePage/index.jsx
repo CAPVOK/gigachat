@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { addUserData, whoAmI } from "../../core/api";
 
 const InputStyle = "py-2 bg-transparent border-2 rounded-xl p-2 px-3 transition border-g focus:duration-150 border-slate-700 focus:border-purple-800 focus:bg-slate-900 text-white placeholder-gray-400 outline-none"
-
+const BlockStyle = "flex justify-between border-gradient-to-tr to-violet-900 from-purple-600 rounded-xl p-4 items-center";
 
 function ProfilePage() {
 
@@ -130,11 +130,6 @@ function ProfilePage() {
     const [editedUser, setEditedUser] = useState(structuredClone(user));
 
     useEffect(() => {
-        //console.log(width);
-        window.innerWidth;
-    }, [])
-
-    useEffect(() => {
         isChangedLogin();
         isChangedPassword();
         isChangedSurname();
@@ -234,26 +229,17 @@ function ProfilePage() {
                         <p className=" text-md text-gray-500">{user.nickname}</p>
                     </div>
                 </div>
-
+                <span className=" bg-slate-600 h-[2px] mx-5" />
                 <p className=" text-xl text-bold text-gray-500 text-center">Настройки профиля</p>
                 <div className="flex justify-center">
                     <div className="flex flex-col w-7/12 md:w-1/3 space-y-3">
                         <div className="flex justify-between items-center rounded-3xl pl-4 pr-6 py-1 bg-purple-700 w-full bg-gradient-to-tr from-start to-end  cursor-pointer"
                             onClick={
                                 (e) => {
-                                    if (window.innerWidth > 768) {
-                                        setAchiv(false);
-                                        setPersonal(true);
-                                        setSecure(false);
-                                        setMain(true);
-                                    }
-                                    else {
-                                        setAchiv(false);
-                                        setPersonal(true);
-                                        setSecure(false);
-                                        setMain(false);
-                                    }
-
+                                    setAchiv(false);
+                                    setPersonal(true);
+                                    setSecure(false);
+                                    setMain(true);
                                 }
                             }
                         >
@@ -266,18 +252,10 @@ function ProfilePage() {
                         <div className="flex justify-between items-center rounded-3xl pl-4 pr-6 py-1 bg-purple-700 w-full bg-gradient-to-tr from-start to-end  cursor-pointer"
                             onClick={
                                 (e) => {
-                                    if (window.innerWidth > 768) {
-                                        setAchiv(false);
-                                        setPersonal(false);
-                                        setSecure(true);
-                                        setMain(true);
-                                    }
-                                    else {
-                                        setAchiv(false);
-                                        setPersonal(false);
-                                        setSecure(true);
-                                        setMain(false);
-                                    }
+                                    setAchiv(false);
+                                    setPersonal(false);
+                                    setSecure(true);
+                                    setMain(true);
 
                                 }
                             }
@@ -291,17 +269,10 @@ function ProfilePage() {
                         <div className="flex justify-between items-center rounded-3xl pl-4 pr-6 py-1 bg-purple-700 w-full bg-gradient-to-tr from-start to-end cursor-pointer"
                             onClick={
                                 (e) => {
-                                    if (window.innerWidth > 768) {
-                                        setAchiv(true);
-                                        setPersonal(false);
-                                        setSecure(false);
-                                    }
-                                    else {
-                                        setAchiv(true);
-                                        setPersonal(false);
-                                        setSecure(false);
-                                        setMain(false);
-                                    }
+                                    setAchiv(true);
+                                    setPersonal(false);
+                                    setSecure(false);
+
 
                                 }
                             }
@@ -316,7 +287,9 @@ function ProfilePage() {
                 <span className=" bg-slate-600 h-[2px] mx-5" />
                 <p className=" text-xl text-bold text-gray-500 text-center">Мой аккаунт</p>
                 <div className=" flex justify-center">
-                    <div className=" flex justify-between w-1/3 rounded-full bg-violet-800 px-4 py-2">
+                    <div className=" flex justify-between w-1/3 rounded-full bg-violet-800 px-4 py-2 cursor-pointer"
+                    onClick={() => navigate("/auth")}
+                    >
                         <p>Выйти</p>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
@@ -326,22 +299,10 @@ function ProfilePage() {
             </div>
 
             <div className={((personal) ? "" : "hidden") + " w-7/12 text-white flex flex-col items-center"}>
-                <button
-                    className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl m-2 p-4 font-bold lg:hidden "
-                    onClick={e => {
-                        setAchiv(false);
-                        setPersonal(false);
-                        setSecure(false);
-                        setMain(true);
-                    }}
-                >
-                    Вернуться
-                </button>
-                <p className=" text-center text-2xl">Личные данные</p>
-
-                <div className="flex flex-col w-1/2 p-4 space-y-3">
-                    <div className="flex justify-between">
-                        {(emptySurname || emptyName || emptyPhone || emptyGender || emptyNick || error) && <span className=" text-sm text-center text-red-600">{warn}</span>}
+                <p className=" text-center text-4xl py-3">Личные данные</p>
+                {(emptySurname || emptyName || emptyPhone || emptyGender || emptyNick || error) && <span className=" text-sm text-center text-red-600">{warn}</span>}
+                <div className="flex flex-col w-2/3 p-4 space-y-10 rounded-lg bg-gradient-to-tr from-purple-900 to-slate-500">
+                    <div className={BlockStyle}>
                         <p>Фамилия:</p>
                         {(edit) ?
                             <input className={InputStyle} name="surname" value={editedUser.surname}
@@ -350,7 +311,8 @@ function ProfilePage() {
                         }
 
                     </div>
-                    <div className="flex justify-between">
+                    <div className={BlockStyle}>
+
                         <p>Имя:</p>
                         {(edit) ?
                             <input className={InputStyle} name="name" value={editedUser.name}
@@ -359,7 +321,8 @@ function ProfilePage() {
                         }
                     </div>
 
-                    <div className="flex justify-between">
+                    <div className={BlockStyle}>
+
                         <p>Пол:</p>
                         {(edit) ?
                             <GenderSelect
@@ -368,7 +331,8 @@ function ProfilePage() {
                         }
                     </div>
 
-                    <div className="flex justify-between">
+                    <div className={BlockStyle}>
+
                         <p>Никнейм:</p>
                         {(edit) ?
                             <input className={InputStyle} name="nickname" value={editedUser.nickname}
@@ -377,7 +341,7 @@ function ProfilePage() {
                         }
                     </div>
 
-                    <div className="flex justify-between">
+                    <div className={BlockStyle}>
                         <p>Телефон:</p>
                         {(edit) ?
                             <PhoneInput onChange={(e) => setEditedUser({ ...editedUser, number: e })} value={editedUser.number} /> :
@@ -407,22 +371,11 @@ function ProfilePage() {
             </div>
 
             <div className={((secure) ? "" : "hidden") + " w-7/12 text-white flex flex-col items-center"}>
-                <button
-                    className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl m-2 p-4 font-bold lg:hidden "
-                    onClick={e => {
-                        setAchiv(false);
-                        setPersonal(false);
-                        setSecure(false);
-                        setMain(true);
-                    }}
-                >
-                    Вернуться
-                </button>
-                <p className=" text-center text-2xl">Безопасноть</p>
 
-                <div className="flex flex-col w-1/2 p-4 space-y-3">
+                <p className=" text-center text-4xl p-6">Безопасноть</p>
+                {(emptyLogin || emptyPassword || emptyMail || error) && <span className=" text-sm text-center text-red-600">{warn}</span>}
+                <div className="flex flex-col w-2/3 p-4 space-y-20 rounded-lg bg-gradient-to-tr from-purple-900 to-slate-500">
                     <div className="flex justify-between">
-                        {(emptySurname || emptyName || emptyPhone || emptyGender || emptyNick || error) && <span className=" text-sm text-center text-red-600">{warn}</span>}
                         <p>Login:</p>
                         {(edit) ?
                             <input className={InputStyle} name="login" value={editedUser.login}
@@ -462,7 +415,7 @@ function ProfilePage() {
                                 >Отменить</button>
                                 <button
                                     className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl m-2 p-4 font-bold "
-                                    onClick={handleEditUser}
+                                    onClick={handleEditSec}
                                 >Изменить</button>
                             </div>
                         }
@@ -472,17 +425,7 @@ function ProfilePage() {
             </div>
 
             <div className={((achiv) ? "" : "hidden") + " w-7/12 text-white flex flex-col items-center"}>
-                <button
-                    className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl m-2 p-4 font-bold lg:hidden "
-                    onClick={e => {
-                        setAchiv(false);
-                        setPersonal(false);
-                        setSecure(false);
-                        setMain(true);
-                    }}
-                >
-                    Вернуться
-                </button>
+
                 <img src="https://cs14.pikabu.ru/post_img/2021/09/28/10/og_og_1632850588253511082.jpg" />
             </div>
         </div>
