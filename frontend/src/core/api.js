@@ -13,6 +13,7 @@ const api = axios.create({
 
 // return string
 export async function getHi() {
+    console.log('getHi');
     const response = await api.get('/hi');
     return response.data;
 }
@@ -43,6 +44,7 @@ export async function getHi() {
 //     },
 // };
 export function connect(callback) {
+    console.log('connect');
     const socket = new SockJS(URL + 'ws');
     const stompClient = over(socket);
     stompClient.connect({}, () => callback(stompClient), disconnect.bind(null, stompClient));
@@ -54,6 +56,7 @@ export function disconnect(stompClient) {
 }
 
 export function subscribeForEvent(stompClient, callback) {
+    console.log('subscribeForEvent');
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
     stompClient.subscribe(`/user/${sessionId}/queue/gigachat`, callback);
@@ -81,6 +84,7 @@ export async function createRegistrationCode(login, mail) {
  *            String mail
  */
 export async function sendEmailCode(mail) {
+    console.log('sendEmailCode', mail);
     await api.post('/authorization/registration/sendCode', {
         mail,
     });
@@ -97,6 +101,7 @@ export async function sendEmailCode(mail) {
      *             done
      */
 export async function confirmRegistration(login, mail, password, code) {
+    console.log('confirmRegistration', login, mail, password, code);
     const response = await api.post('/authorization/registration/mailConfirmation', {
         login,
         mail,
@@ -118,6 +123,7 @@ export async function confirmRegistration(login, mail, password, code) {
      *              String {sessionId}
      */
 export async function login(login, password) {
+    console.log('login', login, password);
     const response = await api.post('/authorization/login', {
         login,
         password,
@@ -137,6 +143,7 @@ export async function login(login, password) {
      */
 export async function logout() {
     const sessionId = localStorage.getItem('sessionId');
+    console.log('logout', sessionId);
     if (!sessionId) return;
     const response = await api.post('/authorization/logout', {
         sessionId,
@@ -151,6 +158,7 @@ export async function logout() {
 
 export async function checkNickname(nickname) {
     const response = await api.post('/profile/checkNickname/' + nickname);
+    console.log('checkNickname', nickname);
     if (response.status == 200) {
         return response.data;
     } else {
@@ -171,6 +179,7 @@ export async function checkNickname(nickname) {
  */
 export async function addUserData(userData) {
     const sessionId = localStorage.getItem('sessionId');
+    console.log('addUserData', userData, sessionId);
     if (sessionId) {
         await api.post('/profile/addUserData/' + sessionId + "/" + userData.nickname, {
             ...userData
@@ -191,6 +200,7 @@ export async function addUserData(userData) {
  * ]
  * */
 export async function findUserByNickname(nickname) {
+    console.log('findUserByNickname', nickname);
     const response = await api.post('/find/userByNickname/' + nickname);
     if (response.status == 200) {
         return response.data;
@@ -202,6 +212,7 @@ export async function findUserByNickname(nickname) {
 
 export async function addNewChat(data, userIds) { // data: name, type
     const sessionId = localStorage.getItem('sessionId');
+    console.log('addNewChat', data, userIds, sessionId);
     if (!sessionId) return;
     const response = await api.post('/create/chat/by/' + encodeURI(sessionId), {...data, userIds});
     return response.data;
@@ -215,6 +226,7 @@ export async function addNewChat(data, userIds) { // data: name, type
      */
 export async function invite(userId, chatId) {
     const sessionId = localStorage.getItem('sessionId');
+    console.log('invite', userId, chatId, sessionId)
     if (!sessionId) return;
     const response = await api.post(`/invite/${userId}/toChat/${chatId}`, {
         session: sessionId
@@ -224,6 +236,7 @@ export async function invite(userId, chatId) {
 
 export async function getInvites() {
     const sessionId = localStorage.getItem('sessionId');
+    console.log('getInvites', sessionId);
     if (!sessionId) return;
     const response = await api.get(`/info/invites/${encodeURI(sessionId)}`);
     if (response.status == 200) {
@@ -236,6 +249,7 @@ export async function getInvites() {
 
 export async function accept(chatId) {
     const sessionId = localStorage.getItem('sessionId');
+    console.log('accept', chatId, sessionId);
     if (!sessionId) return;
     const response = await api.post(`/invite/${encodeURI(sessionId)}/accept/${chatId}`)
     return response.status == 200;
@@ -250,6 +264,7 @@ export async function decline(chatId) {
 
 export async function whoAmI() {
     const sessionId = localStorage.getItem('sessionId');
+    console.log('whoAmI', sessionId);
     if (!sessionId) return;
     const response = await api.get(`/info/user/${encodeURI(sessionId)}`);
     if (response.status == 200) {
@@ -261,6 +276,7 @@ export async function whoAmI() {
 
 export async function getChats() {
     const sessionId = localStorage.getItem('sessionId');
+    console.log('getChats', sessionId);
     if (!sessionId) return;
     const response = await api.get(`/info/allChats/${sessionId}`);
     if (response.status == 200) {
