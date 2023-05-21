@@ -2,7 +2,7 @@
 function SendButton({ callback, label }) {
 
     return (
-        <button onClick={callback} className="p-2 h-10 flex flex-row gap-2 rounded-2xl bg-gradient-to-br from-start to-end active:scale-110 transition ease-in-out hover:cursor-default hover:scale-105">
+        <button onClick={callback} className="p-2 h-10 flex flex-row gap-2 rounded-2xl bg-gradient-to-br from-start to-end active:scale-110 transition ease-in-out hover:scale-105">
             <div className="text-white hidden lg:block">{label}</div>
             <div className="text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

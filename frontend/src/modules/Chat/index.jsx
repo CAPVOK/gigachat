@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 import { SendButton, ChatInput, BackButton, AddUserButton } from "../../ui";
 import { Modal, AddUser } from "../../components";
+import { sendMessage } from "../../core/api";
 
 function Chat({ activeChat, setActiveChat }) {
 
@@ -15,21 +16,8 @@ function Chat({ activeChat, setActiveChat }) {
 
     const [isModalShow, setIsModalShow] = useState(false);
 
-
-    const stompClient = useRef(null); // ссылка но зачем уже не помню
-
-    const [connection, setConnection] = useState(true); // подключены ли мы 
     const [currentMessage, setCurrentMessage] = useState(""); // отправляемое сообщение
-
     const [chatHistory, setChatHistory] = useState([]); // все сообщения чата
-
-    const myName = 'vova';
-
-    const onConnected = () => { // подключаемся)))
-        /* console.log('WS connected');
-        stompClient.current.subscribe('/chatroom/public', chatMessages);
-        setConnection(true); */
-    };
 
     const chatMessages = (payload) => { // слушаем сервер и добавляем в chatHistory
         console.log(payload);
@@ -45,40 +33,13 @@ function Chat({ activeChat, setActiveChat }) {
         )
     }
 
-    const sendMessage = () => { // угадай по названию
-        if (stompClient.current !== null) {
-            if (currentMessage.trim() !== "") {
-                const newDate = new Date();
-                const newMessage = {
-                    username: myName,
-                    message: currentMessage.trim(),
-                    date: newDate.toLocaleString(),
-                };
-                stompClient.current.send("/app/message", {}, JSON.stringify(newMessage));
-                setCurrentMessage("");
-            }
-        }
-    };
-
-
-    const onError = () => { // ничего не работает 
-        console.log('WS error');
-        setConnection(false);
-    };
-
-    useEffect(() => { //подключаемся / отключаемся
-        /* stompClient.current = over(new SockJS('http://localhost:8082/ws'));
-        stompClient.current.connect({}, onConnected, onError);
-        getHistoryOfChat(); // первичная загрузка сообщений (не помню)
-
-        return () => { // выполняется при размонтировании компонента
-            stompClient.current && stompClient.current.disconnect();
-        }; */
-    }, []);
-
-    const handleKeyDown = (event) => { // отправка при нажатии Enter
-        if (event.key === "Enter") {
-            sendMessage();
+    const sendMyMessage = () => { // угадай по названию
+        console.log(currentMessage.trim(), Number(activeChat));
+        if (currentMessage.trim() !== "") {
+            sendMessage(currentMessage.trim(), Number(activeChat))
+            .then((res)=>console.log("ok sendMessage"))
+            .catch((err)=>console.log("error sendMessage"))
+            setCurrentMessage("");
         }
     };
 
@@ -97,6 +58,12 @@ function Chat({ activeChat, setActiveChat }) {
              })
          }) */
     }
+    
+    const handleKeyDown = (event) => { // отправка при нажатии Enter
+        if (event.key === "Enter") {
+            sendMyMessage();
+        }
+    };
 
     const chatEndRef = useRef(null); // ссылка на конец чата для скрола
 
@@ -114,11 +81,10 @@ function Chat({ activeChat, setActiveChat }) {
                 {/* header */}
                 <div className="w-full h-12 px-2 flex flex-row justify-between text-white items-center ">
                     <div className="flex flex-row items-center gap-2">
-                        <BackButton callback={()=>setActiveChat(-1)}/>
-                        <div className="text-3xl">Название</div>
+                        <BackButton callback={() => setActiveChat(-1)} />
                     </div>
                     <div className="flex flex-row">
-                        <AddUserButton callback={()=>setIsModalShow(true)}/>
+                        <div className="text-3xl">Название</div>
                     </div>
                 </div>
 
@@ -153,13 +119,11 @@ function Chat({ activeChat, setActiveChat }) {
                             ))}
                             <div ref={chatEndRef} /> {/* ссылка на конец чата */}
                         </div>
-                        {!connection && (<div className="text-center text-red-500">
-                            Чат сломался :( </div>)} {/* если connection = false */}
                     </div>
                     {/* Ввод сообщения */}
                     <div className="flex flex-row gap-2 w-full p-2" >
                         <ChatInput onChange={setCurrentMessage} value={currentMessage} onKeyDown={handleKeyDown} />
-                        <SendButton callback={sendMessage} label="Отправить" />
+                        <SendButton callback={sendMyMessage} label="Отправить" />
                     </div>
                 </div>
             </div>

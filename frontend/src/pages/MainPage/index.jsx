@@ -22,6 +22,9 @@ function MainPage() {
         setStompClient(connect(onConnected))
     }, []);
 
+    useEffect(() => {
+    }, [activeChat]);
+
     return (<>
         <div className='h-screen w-full flex flex-row p-4 gap-4'>
 

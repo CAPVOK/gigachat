@@ -2,8 +2,8 @@ import axios from 'axios';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 
-const URL = 'http://62.217.177.150:8082/';
-
+const URL = 'http://62.217.177.150:8082/';//'http://62.217.177.150:8082/';
+    
 const api = axios.create({
     baseURL: URL,
     headers: {
@@ -278,7 +278,22 @@ export async function getChats() {
     const sessionId = localStorage.getItem('sessionId');
     console.log('getChats', sessionId);
     if (!sessionId) return;
-    const response = await api.get(`/info/allChats/${sessionId}`);
+    const response = await api.get(`/info/allChats/by/${sessionId}`);
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        return [];
+    }
+}
+
+export async function sendMessage(message, chatId) {
+    const sessionId = localStorage.getItem('sessionId');
+    console.log('getChats', sessionId);
+    if (!sessionId) return;
+    const response = await api.post(`/chat/sendMessage/from/${sessionId}/to/${chatId}`, {
+        date: Number(Date.now()),
+        content: message
+    });
     if (response.status == 200) {
         return response.data;
     } else {
