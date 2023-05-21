@@ -20,11 +20,9 @@ function AddUser() {
 
     useEffect(() => {
         if (searchText) {
-            console.log(searchText)
             findUserByNickname(searchText)
                 .then((res) => {
                     setUsers(res);
-                    console.log(res)
                 })
                 .catch((err) => {
                     console.log(err);
@@ -42,7 +40,7 @@ function AddUser() {
 
             <Search callback={setSearchText} value={searchText} onClick={() => { }} />
 
-            <div className="w-full flex flex-col gap-y-2">
+            <div className="w-full my-2 scrollbar h-full overflow-y-auto flex flex-col gap-y-2">
                 {users.length > 0 && users.map((user) =>
                     <div key={user.id} onClick={() => setSelectedUser(user)} className={`w-full text-center rounded-xl p-2  ${(selectedUser && user.id === selectedUser.id) ? "bg-gradient-to-br from-start to-end" : "bg-hover hover:bg-active"}`} >
                         {user.nickname}
