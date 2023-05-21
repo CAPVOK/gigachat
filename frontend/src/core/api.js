@@ -221,6 +221,18 @@ export async function invite(userId, chatId) {
     return response.status == 200;
 }
 
+export async function getInvites() {
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
+    const response = await api.get(`/info/invites/${sessionId}`);
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        return [];
+    }
+}
+
+
 export async function accept(chatId) {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
