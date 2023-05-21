@@ -4,12 +4,12 @@ import App from './App.jsx'
 
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import slice from './core/slice.js'
+import chat from './core/slice.js'
 
 import './index.css'
 
 const store = configureStore({
-  reducer: slice,
+  reducer: chat,
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(

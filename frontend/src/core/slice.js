@@ -1,21 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 export const counterSlice = createSlice({
-  name: 'profile',
+  name: 'chat',
   initialState: {
-    name: '',
+    chatid: '0',
   },
   reducers: {
-    stepan: (state) => {
-      state.name = "Степан"
-    },
-    dimon: (state) => {
-      state.name = "Димон"
+    saveid: (state, action) => {
+      state.chatid = action.payload
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { stepan, dimon } = counterSlice.actions
+export const { saveid, } = counterSlice.actions
 
 export default counterSlice.reducer

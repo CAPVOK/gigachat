@@ -2,7 +2,7 @@ import axios from 'axios';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 
-const URL = 'http://62.217.177.150:8082/';
+const URL = 'http://localhost:8082/'; //'http://62.217.177.150:8082/';
 
 const api = axios.create({
     baseURL: URL,
@@ -200,10 +200,10 @@ export async function findUserByNickname(nickname) {
 }
 
 
-export async function addNewChat(data) {
+export async function addNewChat(data, userIds) {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.post('/create/chat/by/' + sessionId, {...data});
+    const response = await api.post('/create/chat/by/' + encodeURI(sessionId), {...data, userIds});
     return response.data;
 }
 
@@ -225,7 +225,7 @@ export async function invite(userId, chatId) {
 export async function getInvites() {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.get(`/info/invites/${sessionId}`);
+    const response = await api.get(`/info/invites/${encodeURI(sessionId)}`);
     if (response.status == 200) {
         return response.data;
     } else {
@@ -237,24 +237,35 @@ export async function getInvites() {
 export async function accept(chatId) {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.post(`/invite/${sessionId}/accept/${chatId}`)
+    const response = await api.post(`/invite/${encodeURI(sessionId)}/accept/${chatId}`)
     return response.status == 200;
 }
 
 export async function decline(chatId) {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.post(`/invite/${sessionId}/deny/${chatId}`)
+    const response = await api.post(`/invite/${encodeURI(sessionId)}/deny/${chatId}`)
     return response.status == 200;
 }
 
 export async function whoAmI() {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.get(`/info/user/${sessionId}`);
+    const response = await api.get(`/info/user/${encodeURI(sessionId)}`);
     if (response.status == 200) {
         return response.data;
     } else {
         return {};
+    }
+}
+
+export async function getChats() {
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
+    const response = await api.get(`/info/allChats/${sessionId}`);
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        return [];
     }
 }
