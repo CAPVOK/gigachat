@@ -156,7 +156,7 @@ export async function addUserData(userData) {
     const sessionId = localStorage.getItem('sessionId');
     if (sessionId) {
         await api.post('/profile/addUserData/' + sessionId, {
-            userData,
+            ...userData
         });
     }
 }
