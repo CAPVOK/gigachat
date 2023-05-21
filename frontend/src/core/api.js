@@ -53,7 +53,9 @@ export function disconnect(stompClient) {
 }
 
 export function subscribeForEvent(stompClient, callback) {
-    stompClient.subscribe('/topic/events', callback);
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
+    stompClient.subscribe(`/user/${sessionId}/queue/gigachat`, callback);
 }
 
 /**
