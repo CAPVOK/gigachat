@@ -30,8 +30,8 @@ function ChatList() {
     ];
 
     const Invites = [
-        {id: 1, name: 'Super Chat', nickname: 'Степан'},
-        {id: 2, name: 'Brawl Start 7A', nickname: 'El Primo'},
+        { id: 1, name: 'Super Chat', nickname: 'Степан' },
+        { id: 2, name: 'Brawl Start 7A', nickname: 'El Primo' },
     ]
 
     function handleClickChat(user) {
@@ -40,6 +40,14 @@ function ChatList() {
 
     function handleCloseModal() {
         setIsModalShow(false)
+    }
+
+    function handleSubmitInvite(invite) {
+
+    }
+
+    function handleDiscardInvite(invite) {
+
     }
 
     function sortUsersByTime(users) {
@@ -91,8 +99,8 @@ function ChatList() {
                 <div className={`${isActiveSearch && "hidden"}`}><AddChatButton callback={() => setIsModalShow(true)} /></div>
             </div>
 
-            {Invites.lengh > 0 && Invites.map((invite) =>
-                <Invite invite={invite}/>
+            {Invites.length > 0 && Invites.map((invite) =>
+                <Invite key={invite.id} invite={invite} onSubmit={() => handleSubmitInvite(invite)} onDiscard={() => handleDiscardInvite(invite)} />
             )}
 
             {users && users.map((user) =>
