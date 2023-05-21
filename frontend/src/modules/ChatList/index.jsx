@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-
+import { useDispatch } from "react-redux";
 import { Search, AddChatButton } from "../../ui";
 import { ChatRoom, AddChat, Modal, Invite } from "../../components";
-
 import "./index.css"
 import { accept, decline, getInvites } from "../../core/api";
+import { saveid } from "../../core/slice";
 
 function ChatList() {
     const [active, setActive] = useState(0); // активный чат
@@ -14,6 +14,7 @@ function ChatList() {
     const [isModalShow, setIsModalShow] = useState(false); // модалка 
 
     const isActiveSearchRef = useRef(false);
+    const dispatch = useDispatch();
 
     const Users = [
         { id: 1, name: "Vova", time: '14:09', newMessage: true },
@@ -36,7 +37,8 @@ function ChatList() {
     ])
 
     function handleClickChat(user) {
-        setActive(user.id)
+        setActive(user.id);
+        dispatch(saveid(user.id));
     }
 
     function handleCloseModal() {
