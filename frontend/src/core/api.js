@@ -188,8 +188,10 @@ export async function findUserByNickname(nickname) {
     return response.data;
 }
 
+``
 export async function addNewChat(data) {
     const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
     const response = await api.post('/create/chat/by/' + sessionId, {...data});
     return response.data;
 }
