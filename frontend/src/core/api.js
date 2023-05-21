@@ -138,7 +138,7 @@ export async function logout() {
     const response = await api.post('/authorization/logout', {
         sessionId,
     });
-    if (response.data.status === 'done') {
+    if (response.data?.status === 'done') {
         localStorage.removeItem('sessionId');
         localStorage.removeItem('login');
     }
@@ -148,7 +148,11 @@ export async function logout() {
 
 export async function checkNickname(nickname) {
     const response = await api.post('/profile/checkNickname/' + nickname);
-    return response.data;
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        return "false";
+    }
 }
 
 
@@ -185,7 +189,11 @@ export async function addUserData(userData) {
  * */
 export async function findUserByNickname(nickname) {
     const response = await api.post('/find/userByNickname/' + nickname);
-    return response.data;
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        return [];
+    }
 }
 
 
@@ -215,5 +223,12 @@ export async function accept(chatId) {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
     const response = await api.post(`/invite/${sessionId}/accept/${chatId}`)
+    return response.status == 200;
+}
+
+export async function decline(chatId) {
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
+    const response = await api.post(`/invite/${sessionId}/deny/${chatId}`)
     return response.status == 200;
 }
