@@ -42,9 +42,10 @@ export async function getHi() {
 //          },
 //     },
 // };
-export function connect() {
+export function connect(callback) {
     const socket = new SockJS(URL + 'ws');
     const stompClient = over(socket);
+    stompClient.connect({}, () => callback(stompClient), disconnect.bind(null, stompClient));
     return stompClient;
 }
 

@@ -1,19 +1,25 @@
 import { Link } from 'react-router-dom';
 import { ChatNav, Chat, } from '../../components';
 import { ChatList } from '../../modules';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect, disconnect, subscribeForEvent } from '../../core/api';
 import './index.css'
 
 function MainPage() {
+    const onConnected = (stompClient) => {
+        console.log('WS connected');
+        subscribeForEvent(stompClient, (payload) => {
+            console.log(payload);
+        });
+    };
 
-    // useEffect(() => {
-    //     console.log('MainPage');
-    //     connect();
-    //     subscribeForEvent('message', (data) => {
-    //         console.log(data);
-    //     });
-    // }, []);
+    const [stompClient, _] = useState(connect(onConnected));
+
+    useEffect(() => {
+        return () => {
+            disconnect(stompClient);
+        }
+    }, []);
 
     return (<>
         <div className='h-screen w-full flex flex-row p-4 gap-4'>
