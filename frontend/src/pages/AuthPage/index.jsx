@@ -93,7 +93,7 @@ function AuthPage () {
             className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl px-10 py-3 font-bold mt-20"
             >Войти</button>
             <div className="flex flex-col lg:flex-row lg:space-x-2 pt-4 text-2xl">
-               <p className=" text-gray-500 font-semibold">Нет аккаунта?</p>
+               <p className=" text-gray-300/95 font-semibold">Нет аккаунта?</p>
                 <Link to="/reg">Зарегистрироваться</Link> 
             </div>
             

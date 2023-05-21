@@ -10,7 +10,6 @@ function ChatRoom({ user, active, callback }) {
                     <div className="text-gray-300 text-sm">{user.time}</div>
                 </div>
                 <div className="w-full flex flex-row justify-between items-center">
-                    <div className="overflow-hidden text-gray-300">Я съел деда</div>
                     {user.newMessage && <div className="w-6 h-6 flex justify-center items-center rounded-full aspect-square text-white text-sm bg-end">8</div>}
                 </div>
             </div>

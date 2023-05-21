@@ -13,7 +13,7 @@ export const GenderSelect = ( {onChange} ) => {
      
       <select
         id="gender-select"
-        className={`rounded-md border-white-20 bg-slate-800 border ${focus?"text-white":"text-gray-400"} color-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50`}
+        className={`rounded-md border-white-20 bg-transparent border ${focus?"text-white":"text-gray-400"} color-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50`}
         onFocus={()=>setFocus(true)}
         onChange={handleGenderChange}
       >

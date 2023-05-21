@@ -185,12 +185,7 @@ function RegPage () {
         <div className="h-full w-full fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg animate-tilt">
             <h1 className="text-5xl sm:text-6xl font-bold mb-10">Регистрация</h1>
             
-            <div className="flex p-6 space-x-4 justify-items-start">
-                <span className={" w-[50px] h-[15px] rounded-md bg-green-600 shadow-fuchsia-600"}/>
-                
-                <span className={((!extra)?(" bg-rose-600"):(" bg-green-600")) + " w-[50px] h-[15px] rounded-md border-yellow-400 border-2"}/>
-                {/* <div className=" group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt -z-0"></div> */}
-            </div>
+            
             <div className={((extra)?" hidden":"")+ " flex flex-col items-start z-10"}>
                 <p>Основная регистрация</p>
                 {(emptyLogin || emptyPassword || emptyMail || error)&&<span>{warn}</span>}

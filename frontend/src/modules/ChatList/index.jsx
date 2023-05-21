@@ -15,18 +15,18 @@ function ChatList({activeChat, setActiveChat}) {
     const isActiveSearchRef = useRef(false);
 
     const Users = [
-        { id: 1, name: "Vova", time: '14:09', newMessage: true },
-        { id: 2, name: "Vova", time: '12:20', newMessage: false },
-        { id: 3, name: "Vanya", time: '11:32', newMessage: true },
-        { id: 4, name: "Rodion", time: '15:00', newMessage: true },
-        { id: 5, name: "Vova", time: '14:50', newMessage: true },
-        { id: 6, name: "Vova", time: '12:05', newMessage: false },
-        { id: 7, name: "Vanya", time: '11:00', newMessage: true },
-        { id: 8, name: "Rodion", time: '10:00', newMessage: true },
-        { id: 9, name: "Vova", time: '14:04', newMessage: true },
-        { id: 10, name: "Vova", time: '12:10', newMessage: false },
-        { id: 11, name: "Vanya", time: '11:02', newMessage: true },
-        { id: 12, name: "Rodion", time: '15:30', newMessage: true },
+        // { id: 1, name: "Vova", time: '14:09', newMessage: true },
+        // { id: 2, name: "Vova", time: '12:20', newMessage: false },
+        // { id: 3, name: "Vanya", time: '11:32', newMessage: true },
+        // { id: 4, name: "Rodion", time: '15:00', newMessage: true },
+        // { id: 5, name: "Vova", time: '14:50', newMessage: true },
+        // { id: 6, name: "Vova", time: '12:05', newMessage: false },
+        // { id: 7, name: "Vanya", time: '11:00', newMessage: true },
+        // { id: 8, name: "Rodion", time: '10:00', newMessage: true },
+        // { id: 9, name: "Vova", time: '14:04', newMessage: true },
+        // { id: 10, name: "Vova", time: '12:10', newMessage: false },
+        // { id: 11, name: "Vanya", time: '11:02', newMessage: true },
+        // { id: 12, name: "Rodion", time: '15:30', newMessage: true },
     ];
 
 
