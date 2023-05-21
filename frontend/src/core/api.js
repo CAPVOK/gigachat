@@ -203,7 +203,7 @@ export async function findUserByNickname(nickname) {
 export async function addNewChat(data) {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.post('/create/chat/by/' + sessionId, {...data});
+    const response = await api.post('/create/chat/by/' + encodeURI(sessionId), {...data});
     return response.data;
 }
 
@@ -225,7 +225,7 @@ export async function invite(userId, chatId) {
 export async function getInvites() {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.get(`/info/invites/${sessionId}`);
+    const response = await api.get(`/info/invites/${encodeURI(sessionId)}`);
     if (response.status == 200) {
         return response.data;
     } else {
@@ -237,21 +237,21 @@ export async function getInvites() {
 export async function accept(chatId) {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.post(`/invite/${sessionId}/accept/${chatId}`)
+    const response = await api.post(`/invite/${encodeURI(sessionId)}/accept/${chatId}`)
     return response.status == 200;
 }
 
 export async function decline(chatId) {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.post(`/invite/${sessionId}/deny/${chatId}`)
+    const response = await api.post(`/invite/${encodeURI(sessionId)}/deny/${chatId}`)
     return response.status == 200;
 }
 
 export async function whoAmI() {
     const sessionId = localStorage.getItem('sessionId');
     if (!sessionId) return;
-    const response = await api.get(`/info/user/${sessionId}`);
+    const response = await api.get(`/info/user/${encodeURI(sessionId)}`);
     if (response.status == 200) {
         return response.data;
     } else {
