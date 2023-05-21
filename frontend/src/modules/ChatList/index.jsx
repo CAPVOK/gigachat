@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 import { Search, AddChatButton } from "../../ui";
 import { ChatRoom, AddChat, Modal, Invite } from "../../components";
-import { accept, decline, getInvites } from "../../core/api";
+import { accept, decline, getInvites, getChats } from "../../core/api";
 
 function ChatList({activeChat, setActiveChat}) {
     const [searchText, setSearchText] = useState(''); // текст поиска 
@@ -14,7 +14,7 @@ function ChatList({activeChat, setActiveChat}) {
 
     const isActiveSearchRef = useRef(false);
 
-    const Users = [
+    const [chats, setChats] = useState([
         { id: 1, name: "Vova", time: '14:09', newMessage: true },
         { id: 2, name: "Vova", time: '12:20', newMessage: false },
         { id: 3, name: "Vanya", time: '11:32', newMessage: true },
@@ -27,7 +27,7 @@ function ChatList({activeChat, setActiveChat}) {
         { id: 10, name: "Vova", time: '12:10', newMessage: false },
         { id: 11, name: "Vanya", time: '11:02', newMessage: true },
         { id: 12, name: "Rodion", time: '15:30', newMessage: true },
-    ];
+    ]);
 
 
     function handleClickChat(user) {
@@ -84,19 +84,27 @@ function ChatList({activeChat, setActiveChat}) {
         }
         document.addEventListener('click', handleClickOutside);
 
-        // получить инвайты
-        getInvites().then(unparsed_invites => {
-            console.log(unparsed_invites);
-            setInvites(unparsed_invites.map(unparsed_invite => {
+        // // получить инвайты
+        // getInvites().then(unparsed_invites => {
+        //     console.log(unparsed_invites);
+        //     setInvites(unparsed_invites.map(unparsed_invite => {
+        //         return {
+        //             id: unparsed_invite.chatId.id,
+        //             name: unparsed_invite.chatId.name,
+        //             nickname: unparsed_invite.inviterNickname,
+        //         }
+        //     }))
+        // })
+
+        // получить чаты
+        getChats().then(unparsed_chats => {
+            console.log(unparsed_chats);
+            setUsers(unparsed_chats.map(unparsed_chat => {
                 return {
-                    id: unparsed_invite.chatId.id,
-                    name: unparsed_invite.chatId.name,
-                    nickname: unparsed_invite.inviterNickname,
+                    
                 }
             }))
         })
-
-
 
         return () => {
             document.removeEventListener('click', handleClickOutside);
@@ -105,7 +113,7 @@ function ChatList({activeChat, setActiveChat}) {
 
     /*  сорт чаты */
     useEffect(() => {
-        setUsers(sortUsersByTime(sortUsersBySearch(Users)));
+        setUsers(sortUsersByTime(sortUsersBySearch(chats)));
     }, [searchText]);
 
     return (<>
