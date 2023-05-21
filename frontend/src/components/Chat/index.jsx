@@ -9,17 +9,17 @@ import { SendButton, ChatInput, } from "../../ui";
 import { Modal } from "../Modal";
 import { AddUser } from "../AddUser";
 
-function Chat() {
-    const [isModalShow, setIsModalShow] = useState(false);
-    const ChatId = Number(useSelector((state) => state.chatid));
+function Chat({ activeChat, setActiveChat }) {
 
-    if (ChatId === 0) {
+    if (activeChat === -1) {
         return (<>
             <div className="w-full h-full text-white text-xl font-light flex items-center justify-center">
                 Выберите чат
             </div>
         </>)
     }
+
+    const [isModalShow, setIsModalShow] = useState(false);
 
 
     const stompClient = useRef(null); // ссылка но зачем уже не помню

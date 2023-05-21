@@ -6,7 +6,7 @@ import "./index.css"
 import { accept, decline, getInvites } from "../../core/api";
 import { saveid } from "../../core/slice";
 
-function ChatList() {
+function ChatList({activeChat, setActiveChat}) {
     const [active, setActive] = useState(0); // активный чат
     const [searchText, setSearchText] = useState(''); // текст поиска 
     const [users, setUsers] = useState([]); // сорт чаты
@@ -14,7 +14,6 @@ function ChatList() {
     const [isModalShow, setIsModalShow] = useState(false); // модалка 
 
     const isActiveSearchRef = useRef(false);
-    const dispatch = useDispatch();
 
     const Users = [
         { id: 1, name: "Vova", time: '14:09', newMessage: true },
@@ -34,8 +33,7 @@ function ChatList() {
     const [invites, setInvites] = useState([])
 
     function handleClickChat(user) {
-        setActive(user.id);
-        dispatch(saveid(user.id));
+        setActiveChat(user.id);
     }
 
     function handleCloseModal() {
@@ -100,7 +98,6 @@ function ChatList() {
             }))
         })
 
-
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
@@ -126,7 +123,7 @@ function ChatList() {
             )}
 
             {users && users.map((user) =>
-                <ChatRoom key={user.id} callback={handleClickChat} active={active} user={user} />
+                <ChatRoom key={user.id} callback={handleClickChat} active={activeChat} user={user} />
             )}
         </div>
     </>)
