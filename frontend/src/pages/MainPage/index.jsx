@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ChatList, ChatNav, Chat, } from '../../components';
+import { ChatNav, Chat, } from '../../components';
+import { ChatList } from '../../modules';
 
 import './index.css'
 
