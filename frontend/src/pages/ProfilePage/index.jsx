@@ -13,7 +13,7 @@ function ProfilePage() {
     const [extra, setExtra] = useState(false);
     const [user, setUser] = useState({});
     const [edit, setEdit] = useState(false);
-    
+
 
     const [emptyLogin, setEmptyLogin] = useState(true);
     const [emptyPassword, setEmptyPassword] = useState(true);
@@ -38,6 +38,8 @@ function ProfilePage() {
     const [personal, setPersonal] = useState(true);
     const [secure, setSecure] = useState(false);
     const [achiv, setAchiv] = useState(false);
+    const [main, setMain] = useState(true);
+    const [width, setWidth] = useState(window.innerWidth);
 
     // проверка на изменение
     const isChangedLogin = () => {
@@ -74,35 +76,35 @@ function ProfilePage() {
 
     // проверка на пустоту
     const isEmptyLogin = () => {
-        (editedUser.login === "") ? setEmptyLogin(true) : setEmptyLogin(false) 
+        (editedUser.login === "") ? setEmptyLogin(true) : setEmptyLogin(false)
     }
 
     const isEmptyPassword = () => {
-        (editedUser.password === "") ? setEmptyPassword(true) : setEmptyPassword(false) 
+        (editedUser.password === "") ? setEmptyPassword(true) : setEmptyPassword(false)
     }
 
     const isEmptySurname = () => {
-        (editedUser.surname === "") ? setEmptySurname(true) : setEmptySurname(false) 
+        (editedUser.surname === "") ? setEmptySurname(true) : setEmptySurname(false)
     }
 
     const isEmptyName = () => {
-        (editedUser.name === "") ? setEmptyName(true) : setEmptyName(false) 
+        (editedUser.name === "") ? setEmptyName(true) : setEmptyName(false)
     }
 
     const isEmptyMail = () => {
-        (editedUser.mail === "") ? setEmptyMail(true) : setEmptyMail(false) 
+        (editedUser.mail === "") ? setEmptyMail(true) : setEmptyMail(false)
     }
 
     const isEmptyPhone = () => {
-        (editedUser.phone === "") ? setEmptyPhone(true) : setEmptyPhone(false) 
+        (editedUser.phone === "") ? setEmptyPhone(true) : setEmptyPhone(false)
     }
 
     const isEmptyNick = () => {
-        (editedUser.nick === "") ? setEmptyNick(true) : setEmptyNick(false) 
+        (editedUser.nick === "") ? setEmptyNick(true) : setEmptyNick(false)
     }
 
     const isEmptyGender = () => {
-        (editedUser.gender === "") ? setEmptyGender(true) : setEmptyGender(false) 
+        (editedUser.gender === "") ? setEmptyGender(true) : setEmptyGender(false)
     }
 
     useEffect(() => {
@@ -127,6 +129,10 @@ function ProfilePage() {
 
     const [editedUser, setEditedUser] = useState(structuredClone(user));
 
+    useEffect(() => {
+        //console.log(width);
+        window.innerWidth;
+    }, [])
 
     useEffect(() => {
         isChangedLogin();
@@ -147,7 +153,7 @@ function ProfilePage() {
         isEmptyNick();
         isEmptyGender();
         // console.log(editedUser)
-    },[editedUser])
+    }, [editedUser])
 
     const handleInputChange = (event) => {
         const target = event.target;
@@ -171,8 +177,8 @@ function ProfilePage() {
         if (emptyNick) {
             setWarn("Поле никнейма не должно быть пустым");
             return;
-        } 
-        if(!changedName && !changedSurname && !changedNick && !changedPhone && !changedGender){
+        }
+        if (!changedName && !changedSurname && !changedNick && !changedPhone && !changedGender) {
             setWarn("Не были внесены изменения");
             return;
         } else {
@@ -185,23 +191,23 @@ function ProfilePage() {
                 nickname: editedUser.nickname
             })
             setEdit(false);
-            window.location.reload(); 
+            window.location.reload();
         }
     }
 
     const handleEditSec = (e) => {
-        if(emptyLogin){
+        if (emptyLogin) {
             setWarn("Поле логина не должно быть пустым");
             return;
         }
-        if(emptyPassword){   
+        if (emptyPassword) {
             setWarn("Поле пароля не должно быть пустым");
             return;
-        } 
-        if(emptyMail){   
+        }
+        if (emptyMail) {
             setWarn("Поле почты не должно быть пустым");
             return;
-        } 
+        }
         else {
             addUserData({
                 login: editedUser.login,
@@ -209,13 +215,13 @@ function ProfilePage() {
                 mail: editedUser.mail,
             })
             setEdit(false);
-            window.location.reload(); 
+            window.location.reload();
         }
     }
 
     return (<>
         <div className="flex">
-            <div className=" h-full w-full lg:w-5/12  flex flex-col text-white space-y-5">
+            <div className={((main) ? "" : " hidden lg:relative") + " h-full w-full lg:w-5/12  flex flex-col text-white space-y-5"}>
                 <div className="flex space-x-2 items-center p-3 text-3xl">
                     <BackButton />
                     <p>Мой профиль</p>
@@ -231,15 +237,25 @@ function ProfilePage() {
 
                 <p className=" text-xl text-bold text-gray-500 text-center">Настройки профиля</p>
                 <div className="flex justify-center">
-                    <div className="flex flex-col w-7/12 md:w-1/3 space-y-3"> 
+                    <div className="flex flex-col w-7/12 md:w-1/3 space-y-3">
                         <div className="flex justify-between items-center rounded-3xl pl-4 pr-6 py-1 bg-purple-700 w-full bg-gradient-to-tr from-start to-end  cursor-pointer"
-                        onClick={
-                            (e) => {
-                                setAchiv(false);
-                                setPersonal(true);
-                                setSecure(false);
+                            onClick={
+                                (e) => {
+                                    if (window.innerWidth > 768) {
+                                        setAchiv(false);
+                                        setPersonal(true);
+                                        setSecure(false);
+                                        setMain(true);
+                                    }
+                                    else {
+                                        setAchiv(false);
+                                        setPersonal(true);
+                                        setSecure(false);
+                                        setMain(false);
+                                    }
+
+                                }
                             }
-                        }
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -248,13 +264,23 @@ function ProfilePage() {
                         </div>
 
                         <div className="flex justify-between items-center rounded-3xl pl-4 pr-6 py-1 bg-purple-700 w-full bg-gradient-to-tr from-start to-end  cursor-pointer"
-                        onClick={
-                            (e) => {
-                                setAchiv(false);
-                                setPersonal(false);
-                                setSecure(true);
+                            onClick={
+                                (e) => {
+                                    if (window.innerWidth > 768) {
+                                        setAchiv(false);
+                                        setPersonal(false);
+                                        setSecure(true);
+                                        setMain(true);
+                                    }
+                                    else {
+                                        setAchiv(false);
+                                        setPersonal(false);
+                                        setSecure(true);
+                                        setMain(false);
+                                    }
+
+                                }
                             }
-                        }
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z" />
@@ -263,13 +289,22 @@ function ProfilePage() {
                         </div>
 
                         <div className="flex justify-between items-center rounded-3xl pl-4 pr-6 py-1 bg-purple-700 w-full bg-gradient-to-tr from-start to-end cursor-pointer"
-                        onClick={
-                            (e) => {
-                                setAchiv(true);
-                                setPersonal(false);
-                                setSecure(false);
+                            onClick={
+                                (e) => {
+                                    if (window.innerWidth > 768) {
+                                        setAchiv(true);
+                                        setPersonal(false);
+                                        setSecure(false);
+                                    }
+                                    else {
+                                        setAchiv(true);
+                                        setPersonal(false);
+                                        setSecure(false);
+                                        setMain(false);
+                                    }
+
+                                }
                             }
-                        }
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
@@ -290,12 +325,23 @@ function ProfilePage() {
                 </div>
             </div>
 
-            <div className={((personal)?"":"hidden") + " w-7/12 text-white flex flex-col items-center"}>
+            <div className={((personal) ? "" : "hidden") + " w-7/12 text-white flex flex-col items-center"}>
+                <button
+                    className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl m-2 p-4 font-bold lg:hidden "
+                    onClick={e => {
+                        setAchiv(false);
+                        setPersonal(false);
+                        setSecure(false);
+                        setMain(true);
+                    }}
+                >
+                    Вернуться
+                </button>
                 <p className=" text-center text-2xl">Личные данные</p>
 
                 <div className="flex flex-col w-1/2 p-4 space-y-3">
                     <div className="flex justify-between">
-                    {( emptySurname || emptyName || emptyPhone || emptyGender || emptyNick || error)&&<span className=" text-sm text-center text-red-600">{warn}</span>}
+                        {(emptySurname || emptyName || emptyPhone || emptyGender || emptyNick || error) && <span className=" text-sm text-center text-red-600">{warn}</span>}
                         <p>Фамилия:</p>
                         {(edit) ?
                             <input className={InputStyle} name="surname" value={editedUser.surname}
@@ -360,12 +406,23 @@ function ProfilePage() {
                 </div>
             </div>
 
-            <div className={((secure)?"":"hidden") + " w-7/12 text-white flex flex-col items-center"}>
+            <div className={((secure) ? "" : "hidden") + " w-7/12 text-white flex flex-col items-center"}>
+                <button
+                    className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl m-2 p-4 font-bold lg:hidden "
+                    onClick={e => {
+                        setAchiv(false);
+                        setPersonal(false);
+                        setSecure(false);
+                        setMain(true);
+                    }}
+                >
+                    Вернуться
+                </button>
                 <p className=" text-center text-2xl">Безопасноть</p>
 
                 <div className="flex flex-col w-1/2 p-4 space-y-3">
                     <div className="flex justify-between">
-                    {( emptySurname || emptyName || emptyPhone || emptyGender || emptyNick || error)&&<span className=" text-sm text-center text-red-600">{warn}</span>}
+                        {(emptySurname || emptyName || emptyPhone || emptyGender || emptyNick || error) && <span className=" text-sm text-center text-red-600">{warn}</span>}
                         <p>Login:</p>
                         {(edit) ?
                             <input className={InputStyle} name="login" value={editedUser.login}
@@ -414,8 +471,19 @@ function ProfilePage() {
                 </div>
             </div>
 
-            <div className={((achiv)?"":"hidden") + " w-7/12 text-white flex flex-col items-center"}>
-                <img src="https://cs14.pikabu.ru/post_img/2021/09/28/10/og_og_1632850588253511082.jpg"/>
+            <div className={((achiv) ? "" : "hidden") + " w-7/12 text-white flex flex-col items-center"}>
+                <button
+                    className=" bg-gradient-to-r from-purple-700 to-fuchsia-700 rounded-2xl m-2 p-4 font-bold lg:hidden "
+                    onClick={e => {
+                        setAchiv(false);
+                        setPersonal(false);
+                        setSecure(false);
+                        setMain(true);
+                    }}
+                >
+                    Вернуться
+                </button>
+                <img src="https://cs14.pikabu.ru/post_img/2021/09/28/10/og_og_1632850588253511082.jpg" />
             </div>
         </div>
     </>)
