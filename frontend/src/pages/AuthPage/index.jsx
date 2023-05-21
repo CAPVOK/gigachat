@@ -76,7 +76,7 @@ function AuthPage () {
     },[user])
 
     return (<>
-        <div className="h-full w-full lg:w-5/12 fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl">
+        <div className="h-full w-full lg:w-5/12 fixed top-0 left-0 flex items-center justify-center flex-col text-white text-xl  bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg animate-tilt">
             <h1 className="text-6xl font-bold mb-12">Войти</h1>
             {(emptyLogin || emptyPassword || error)&&<span className=" text-sm text-center text-red-600">{warn}</span>}
             <div>
