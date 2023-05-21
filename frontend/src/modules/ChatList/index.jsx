@@ -69,22 +69,20 @@ function ChatList() {
         )
     }
 
-
-
+    /* клик вне search*/
     useEffect(() => {
         function handleClickOutside(event) {
             if (isActiveSearchRef.current && !event.target.closest('#search-container')) {
                 setIsActiveSearch(false);
             }
         }
-
         document.addEventListener('click', handleClickOutside);
-
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
     }, []);
 
+    /*  сорт чаты */
     useEffect(() => {
         setUsers(sortUsersByTime(sortUsersBySearch(Users)));
     }, [searchText]);
