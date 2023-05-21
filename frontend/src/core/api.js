@@ -132,7 +132,9 @@ export async function login(login, password) {
      * @return status:
      *                  done
      */
-export async function logout(sessionId) {
+export async function logout() {
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
     const response = await api.post('/authorization/logout', {
         sessionId,
     });
@@ -142,6 +144,14 @@ export async function logout(sessionId) {
     }
     return response.data;
 }
+
+
+export async function checkNickname(nickname) {
+    const response = await api.post('/profile/checkNickname/' + nickname);
+    return response.data;
+}
+
+
 
 /**
  * @param userData {
@@ -155,8 +165,8 @@ export async function logout(sessionId) {
 export async function addUserData(userData) {
     const sessionId = localStorage.getItem('sessionId');
     if (sessionId) {
-        await api.post('/profile/addUserData/' + sessionId +"/" + userData.nickname, {
-            userData,
+        await api.post('/profile/addUserData/' + sessionId + "/" + userData.nickname, {
+            ...userData
         });
     }
 }
@@ -175,5 +185,11 @@ export async function addUserData(userData) {
  * */
 export async function findUserByNickname(nickname) {
     const response = await api.post('/find/userByNickname/' + nickname);
+    return response.data;
+}
+
+export async function addNewChat(data) {
+    const sessionId = localStorage.getItem('sessionId');
+    const response = await api.post('/create/chat/by/' + sessionId, {...data});
     return response.data;
 }
