@@ -15,9 +15,11 @@ function MainPage() {
         });
     };
 
-    const [stompClient, _] = useState(connect(onConnected));
+    const [stompClient, setStompClient] = useState(null);
 
     useEffect(() => {
+        if (stompClient) return;
+        setStompClient(connect(onConnected))
     }, []);
 
     return (<>
