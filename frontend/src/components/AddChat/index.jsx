@@ -4,7 +4,7 @@ import { ModalButton } from "../../ui";
 
 function AddChat() {
     const [formData, setFormData] = useState({
-        type: '',
+        type: '',   
         name: '',
     })
 
@@ -19,8 +19,9 @@ function AddChat() {
     }
 
     function handleCreate() {
-        console.log({name: formData.name, type: (formData.type ? "multi" : "single")});
-        addNewChat({name: formData.name, type: (formData.type ? "multi" : "single")}).then((res)=>console.log(res)).catch((err)=>console.log(err));
+        addNewChat({name: formData.name, type: (formData.type ? "multi" : "single")})
+        .then(()=>console.log("Ok"))
+        .catch(()=>console.log("Ошибка"));
     }
 
     return (<>
