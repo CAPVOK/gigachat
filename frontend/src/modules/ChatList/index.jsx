@@ -90,16 +90,18 @@ function ChatList({ activeChat, setActiveChat }) {
         getChats().then(unparsed_chats => {
             console.log(unparsed_chats);
             setUsers(unparsed_chats.map(unparsed_chat => {
-                return {
+                const msgs = unparsed_chat.messageList;
+                const parsed = {
                     id: unparsed_chat.id,
                     name: unparsed_chat.name,
-                    time: (() => { if (unparsed_chat.messageList == []) { return '' } else { return Date.now().toString()  } })(),
+                    time: (() => { if (unparsed_chat.messageList == []) { return '' } else { return new Date(msgs[msgs.length - 1].date).getHours() + ":" + new Date(msgs[msgs.length - 1].date).getMinutes()} })(),
                     newMessage: false,
                     lastMessage: (() => { if (unparsed_chat.messageList == []) { return '' } else {
-                        const msgs = unparsed_chat.messageList;
                         return msgs[msgs.length - 1].content;
                     } })(),
                 }
+                console.log(parsed);
+                return parsed;
             }))
         });
 
