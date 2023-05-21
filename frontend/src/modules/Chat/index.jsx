@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from "react";
 
 import { SendButton, ChatInput, BackButton, AddUserButton } from "../../ui";
 import { Modal, AddUser } from "../../components";
-import { sendMessage } from "../../core/api";
+import { sendMessage, getChat, getUser } from "../../core/api";
 
-function Chat({ activeChat, setActiveChat }) {
+function Chat({ activeChat, setActiveChat, payload}) {
 
     if (activeChat === -1) {
         return (<>
@@ -19,10 +19,8 @@ function Chat({ activeChat, setActiveChat }) {
     const [currentMessage, setCurrentMessage] = useState(""); // отправляемое сообщение
     const [chatHistory, setChatHistory] = useState([]); // все сообщения чата
 
-    const chatMessages = (payload) => { // слушаем сервер и добавляем в chatHistory
-        console.log(payload);
-        const payloadData = JSON.parse(payload.body);
-        console.log(payloadData);
+    function chatMessages (payload) { // слушаем сервер и добавляем в chatHistory
+        const payloadData = JSON.parse(JSON.parse(payload.body));
         setChatHistory((prev) => [
             ...prev,
             {
@@ -43,21 +41,22 @@ function Chat({ activeChat, setActiveChat }) {
         }
     };
 
-    const getHistoryOfChat = () => {
-        /*  api.get('/pastMessages/load').then((res) => {
-             console.log(res.data);
-             Object.entries(res.data).map(([key, value]) => {
-                 setChatHistory((prev) => [
-                     ...prev,
-                     {
-                         username: value.username,
-                         message: value.message,
-                         date: value.date
-                     }]
-                 );
-             })
-         }) */
-    }
+    /* получение истории чата */
+    useEffect(()=>{
+        console.log(Number(activeChat));
+        getChat(Number(activeChat))
+        .then((res)=>{
+            setChatHistory(res.messageList);
+            console.log(res.messageList);
+            getUser(msg.userId.id).then((res)=>console.log(res))
+        })
+        .catch(()=>setChatHistory([]))
+    }, [activeChat]);
+
+    useEffect(()=>{
+        /* chatMessages(payload); */
+        console.log(payload);
+    }, [payload]);
     
     const handleKeyDown = (event) => { // отправка при нажатии Enter
         if (event.key === "Enter") {
@@ -94,14 +93,14 @@ function Chat({ activeChat, setActiveChat }) {
                     <div className="overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-300 h-full">
                         <div className="grid grid-cols-12 gap-y-2 ">
                             {chatHistory.map((msg) => ( /* выводим весь чат */
-                                msg.username !== myName ? /* чьё сообщение  */
+                                false ? /* чьё сообщение  */
                                     (<div key={msg.date} className="col-start-1 col-end-8 p-3 rounded-lg">
                                         <div className="flex flex-row items-center">
                                             <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                                                {msg.username[0]} {/* // первая буква */}
+                                                {} {/* // первая буква */}
                                             </div>
                                             <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                                                <div>{msg.message}</div>
+                                                <div>{msg.content}</div>
                                             </div>
                                         </div>
                                     </div>)
@@ -109,10 +108,10 @@ function Chat({ activeChat, setActiveChat }) {
                                     (<div key={msg.date} className="col-start-6 col-end-13 p-3 rounded-lg">
                                         <div className="flex items-center justify-start flex-row-reverse">
                                             <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                                                {msg.username[0]}
+                                                {msg.id}
                                             </div>
                                             <div className="relative mr-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                                                <div>{msg.message}</div>
+                                                <div>{msg.content}</div>
                                             </div>
                                         </div>
                                     </div>)

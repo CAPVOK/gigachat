@@ -7,11 +7,13 @@ import './index.css'
 
 function MainPage() {
     const [activeChat, setActiveChat] = useState(-1);
+    const [payload, setPayload] = useState({});
 
     const onConnected = (stompClient) => {
         console.log('WS connected');
         subscribeForEvent(stompClient, (payload) => {
             console.log(payload);
+            setPayload(payload);
         });
     };
 
@@ -36,7 +38,7 @@ function MainPage() {
             </div>
 
             <div className='h-full w-full'>
-                <Chat activeChat={activeChat} setActiveChat={setActiveChat}/>
+                <Chat payload={payload} activeChat={activeChat} setActiveChat={setActiveChat}/>
             </div>
 
         </div>
