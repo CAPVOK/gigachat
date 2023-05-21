@@ -242,32 +242,32 @@ function RegPage () {
                 <p>Дополнительная регистрация</p>
                 {( emptySurname || emptyName || emptyPhone || error)&&<span className=" text-sm text-center text-red-600">{warn}</span>}
                 <div>
-                    <p className={PStyle + " mt-2"}>Фамилия</p>
+                    <p className={PStyle + " mt-1"}>Фамилия</p>
                     <input name = "surname" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/> 
                 </div>
                 
                 <div>
-                    <p className={PStyle + " mt-2"}>Имя</p>
+                    <p className={PStyle + " mt-1"}>Имя</p>
                     <input name = "name" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
                 </div>
                 
                 <div>
-                    <p className={PStyle + " mt-2"}>Дата рождения</p>
+                    <p className={PStyle + " mt-1"}>Дата рождения</p>
                     <input type="date" name = "date" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
                 </div>
 
                 <div>
-                    <p className={PStyle + " mt-2"}>Пол</p>
+                    <p className={PStyle + " mt-1"}>Пол</p>
                     <GenderSelect onChange={(e)=>setUser({...user, gender: e})}/>
                 </div>
 
                 <div>
-                    <p className={PStyle + " mt-2"}>Никнейм</p>
+                    <p className={PStyle + " mt-1"}>Никнейм</p>
                     <input name = "nick" className={InputStyle} onChange={(e) => {handleInputChange(e)}}/>
                 </div>
 
                 <div>
-                    <p className={PStyle + " mt-2"}>Телефон</p>
+                    <p className={PStyle + " mt-1"}>Телефон</p>
                     <PhoneInput onChange={(e)=>setUser({...user, phone: e})} name = "phone"/>
                 </div> 
 
