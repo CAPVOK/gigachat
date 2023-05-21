@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import { SendButton, ChatInput, BackButton, AddUserButton } from "../../ui";
-import { Modal } from "../Modal";
-import { AddUser } from "../AddUser";
+import { Modal, AddUser } from "../../components";
 
 function Chat({ activeChat, setActiveChat }) {
 

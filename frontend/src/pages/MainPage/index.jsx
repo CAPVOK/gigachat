@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ChatNav, Chat, } from '../../components';
-import { ChatList } from '../../modules';
+import { ChatNav,  } from '../../components';
+import { Chat, ChatList } from '../../modules';
 import { useEffect, useState } from 'react';
 import { connect, disconnect, subscribeForEvent } from '../../core/api';
 import './index.css'

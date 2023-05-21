@@ -1,3 +1,4 @@
-import {ChatList} from './ChatList'
+import {ChatList} from './ChatList';
+import { Chat } from './Chat';
 
-export {ChatList};
+export {ChatList, Chat};
