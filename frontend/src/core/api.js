@@ -258,3 +258,14 @@ export async function whoAmI() {
         return {};
     }
 }
+
+export async function getChats() {
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
+    const response = await api.get(`/info/allChats/${sessionId}`);
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        return [];
+    }
+}
