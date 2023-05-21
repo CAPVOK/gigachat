@@ -6,5 +6,7 @@ import { SendButton } from "./SendButton";
 import { ChatInput } from "./ChatInput";
 import { AddChatButton } from "./AddChatButton";
 import { GenderSelect } from "./GenderSelect";
+import { ModalButton } from "./ModalButton";
+import { ExitButton } from "./ExitButton";
 
-export {PhoneInput, SubmitButton, BackButton, Search, SendButton, ChatInput, AddChatButton, GenderSelect, };
+export {PhoneInput, SubmitButton, BackButton, Search, SendButton, ChatInput, AddChatButton, GenderSelect, ModalButton, ExitButton, };
