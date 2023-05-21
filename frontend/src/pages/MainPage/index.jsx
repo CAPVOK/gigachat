@@ -16,9 +16,6 @@ function MainPage() {
     const [stompClient, _] = useState(connect(onConnected));
 
     useEffect(() => {
-        return () => {
-            disconnect(stompClient);
-        }
     }, []);
 
     return (<>
