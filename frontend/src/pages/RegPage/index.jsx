@@ -143,6 +143,7 @@ function RegPage () {
                     localStorage.setItem("sessionId", data.sessionId);
                 })
                 setExtra(!extra);
+                console.log(cod);
             }
         }).catch((error) => {
             console.log(error);
