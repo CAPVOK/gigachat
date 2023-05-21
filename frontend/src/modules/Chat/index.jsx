@@ -46,16 +46,38 @@ function Chat({ activeChat, setActiveChat, payload}) {
         console.log(Number(activeChat));
         getChat(Number(activeChat))
         .then((res)=>{
-            setChatHistory(res.messageList);
-            console.log(res.messageList);
-            getUser(msg.userId.id).then((res)=>console.log(res))
+            setChatHistory(res.messageList/* .map((list)=>{
+                let name = '';
+                console.log(list.id) 
+
+                getUser(list.id)
+                .then((res)=>{name = res.userData.name })
+                .catch((err)=>console.log("err"));
+
+                return {...list, name: name}
+            }) */) 
         })
         .catch(()=>setChatHistory([]))
     }, [activeChat]);
 
     useEffect(()=>{
-        /* chatMessages(payload); */
-        console.log(payload);
+        /* const msg = JSON.parse(payload.body).body.newMessage.content; 
+        setChatHistory( [...chatHistory, 
+            {content: 'AAA', name: '', date: "123" }]); */
+            getChat(Number(activeChat))
+            .then((res)=>{
+                setChatHistory(res.messageList/* .map((list)=>{
+                    let name = '';
+                    console.log(list.id) 
+    
+                    getUser(list.id)
+                    .then((res)=>{name = res.userData.name })
+                    .catch((err)=>console.log("err"));
+    
+                    return {...list, name: ''} })*/
+                ) 
+            })
+            .catch(()=>setChatHistory([]))
     }, [payload]);
     
     const handleKeyDown = (event) => { // отправка при нажатии Enter
@@ -97,7 +119,7 @@ function Chat({ activeChat, setActiveChat, payload}) {
                                     (<div key={msg.date} className="col-start-1 col-end-8 p-3 rounded-lg">
                                         <div className="flex flex-row items-center">
                                             <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                                                {} {/* // первая буква */}
+                                                {msg.name} {/* // первая буква */}
                                             </div>
                                             <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
                                                 <div>{msg.content}</div>
@@ -108,7 +130,7 @@ function Chat({ activeChat, setActiveChat, payload}) {
                                     (<div key={msg.date} className="col-start-6 col-end-13 p-3 rounded-lg">
                                         <div className="flex items-center justify-start flex-row-reverse">
                                             <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                                                {msg.id}
+                                                {msg.name}
                                             </div>
                                             <div className="relative mr-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
                                                 <div>{msg.content}</div>
