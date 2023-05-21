@@ -1,18 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 
-import { ChatRoom } from "../ChatRoom";
-import { AddChat } from "../AddChat";
 import { Search, AddChatButton } from "../../ui";
-import { Modal } from "../Modal";
+import { ChatRoom, AddChat, Modal, Invite } from "../../components";
 
 import "./index.css"
 
 function ChatList() {
-    const [active, setActive] = useState(0);
-    const [searchText, setSearchText] = useState('');
-    const [users, setUsers] = useState([]);
-    const [isActiveSearch, setIsActiveSearch] = useState(false);
-    const [isModalShow, setIsModalShow] = useState(false);
+    const [active, setActive] = useState(0); // активный чат
+    const [searchText, setSearchText] = useState(''); // текст поиска 
+    const [users, setUsers] = useState([]); // сорт чаты
+    const [isActiveSearch, setIsActiveSearch] = useState(false); // тыкнули ли мы на поиск
+    const [isModalShow, setIsModalShow] = useState(false); // модалка 
 
     const isActiveSearchRef = useRef(false);
 
@@ -31,12 +29,25 @@ function ChatList() {
         { id: 12, name: "Rodion", time: '15:30', newMessage: true },
     ];
 
+    const Invites = [
+        { id: 1, name: 'Super Chat', nickname: 'Степан' },
+        { id: 2, name: 'Brawl Start 7A', nickname: 'El Primo' },
+    ]
+
     function handleClickChat(user) {
         setActive(user.id)
     }
 
     function handleCloseModal() {
         setIsModalShow(false)
+    }
+
+    function handleSubmitInvite(invite) {
+
+    }
+
+    function handleDiscardInvite(invite) {
+
     }
 
     function sortUsersByTime(users) {
@@ -58,6 +69,8 @@ function ChatList() {
         )
     }
 
+
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (isActiveSearchRef.current && !event.target.closest('#search-container')) {
@@ -73,9 +86,8 @@ function ChatList() {
     }, []);
 
     useEffect(() => {
-        /* const usrs = Users;
-        setUsers(sortUsersBySearch(sortUsersByTime(usrs))); */
-    }, [searchText, Users]);
+        setUsers(sortUsersByTime(sortUsersBySearch(Users)));
+    }, [searchText]);
 
     return (<>
         <Modal isOpen={isModalShow} onClose={handleCloseModal} label='Создать чат'>
@@ -86,6 +98,11 @@ function ChatList() {
                 <div ref={isActiveSearchRef} id="search-container" className="w-full"><Search callback={setSearchText} value={searchText} onClick={setIsActiveSearch} isActive={isActiveSearch} /></div>
                 <div className={`${isActiveSearch && "hidden"}`}><AddChatButton callback={() => setIsModalShow(true)} /></div>
             </div>
+
+            {Invites.length > 0 && Invites.map((invite) =>
+                <Invite key={invite.id} invite={invite} onSubmit={() => handleSubmitInvite(invite)} onDiscard={() => handleDiscardInvite(invite)} />
+            )}
+
             {users && users.map((user) =>
                 <ChatRoom key={user.id} callback={handleClickChat} active={active} user={user} />
             )}
