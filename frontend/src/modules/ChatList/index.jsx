@@ -6,9 +6,10 @@ import { accept, decline, getInvites } from "../../core/api";
 
 function ChatList({activeChat, setActiveChat}) {
     const [searchText, setSearchText] = useState(''); // текст поиска 
-    const [users, setUsers] = useState([]); // сорт чаты
     const [isActiveSearch, setIsActiveSearch] = useState(false); // тыкнули ли мы на поиск
     const [isModalShow, setIsModalShow] = useState(false); // модалка 
+    
+    const [users, setUsers] = useState([]); // сорт чаты
     const [invites, setInvites] = useState([])
 
     const isActiveSearchRef = useRef(false);
@@ -95,7 +96,7 @@ function ChatList({activeChat, setActiveChat}) {
             }))
         })
 
-        
+
 
         return () => {
             document.removeEventListener('click', handleClickOutside);
@@ -112,6 +113,7 @@ function ChatList({activeChat, setActiveChat}) {
             <AddChat />
         </Modal>
         <div className={`w-full h-full flex flex-col gap-y-4 `}>
+
             <div className={`flex flex-row gap-x-2 ${isActiveSearch ? "px-0" : "px-4"}`}>
                 <div ref={isActiveSearchRef} id="search-container" className="w-full"><Search callback={setSearchText} value={searchText} onClick={setIsActiveSearch} isActive={isActiveSearch} /></div>
                 <div className={`${isActiveSearch && "hidden"}`}><AddChatButton callback={() => setIsModalShow(true)} /></div>
@@ -121,7 +123,7 @@ function ChatList({activeChat, setActiveChat}) {
                 <Invite key={invite.id} invite={invite} onSubmit={() => handleSubmitInvite(invite)} onDiscard={() => handleDiscardInvite(invite)} />
             )}
 
-            {users && users.map((user) =>
+            {users.length > 0 && users.map((user) =>
                 <ChatRoom key={user.id} callback={handleClickChat} active={activeChat} user={user} />
             )}
         </div>
