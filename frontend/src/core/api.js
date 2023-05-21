@@ -132,7 +132,9 @@ export async function login(login, password) {
      * @return status:
      *                  done
      */
-export async function logout(sessionId) {
+export async function logout() {
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return;
     const response = await api.post('/authorization/logout', {
         sessionId,
     });
@@ -142,6 +144,14 @@ export async function logout(sessionId) {
     }
     return response.data;
 }
+
+
+export async function checkNickname(nickname) {
+    const response = await api.post('/profile/checkNickname/' + nickname);
+    return response.data;
+}
+
+
 
 /**
  * @param userData {
