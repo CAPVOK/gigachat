@@ -1,9 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-
-import { over } from 'stompjs';
-import SockJS from 'sockjs-client';
-/* import { api } from "../../core/api"; */
 
 import { SendButton, ChatInput, BackButton, AddUserButton } from "../../ui";
 import { Modal } from "../Modal";
