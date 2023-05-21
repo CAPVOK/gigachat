@@ -309,3 +309,13 @@ export async function getChat(chatId) {
         return {};
     }
 }
+
+
+export async function getUser(userId) {
+    const response = await api.get(`/info/userById/${userId}`);
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        return {};
+    }
+}
