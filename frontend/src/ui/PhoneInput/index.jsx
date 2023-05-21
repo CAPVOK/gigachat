@@ -44,6 +44,6 @@ const InputStyle = "py-2 bg-transparent border-2 rounded-xl p-2 px-3 transition 
     }
 
     return(
-        <input className={InputStyle} onChange={onPhoneInput}/>
+        <input className={InputStyle} onChange={onPhoneInput} value={props.value}/>
     );
  }
