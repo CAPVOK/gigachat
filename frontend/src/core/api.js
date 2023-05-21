@@ -300,3 +300,12 @@ export async function sendMessage(message, chatId) {
         return [];
     }
 }
+
+export async function getChat(chatId) {
+    const response = await api.get(`/info/chat/${chatId}`);
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        return {};
+    }
+}
